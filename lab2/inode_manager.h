@@ -6,6 +6,9 @@
 #include <stdint.h>
 #include "extent_protocol.h" // TODO: delete it
 
+#include "lock_protocol.h"
+#include "lock_client.h"
+
 #define DISK_SIZE  1024*1024*16
 #define BLOCK_SIZE 512
 #define BLOCK_NUM  (DISK_SIZE/BLOCK_SIZE)
@@ -17,7 +20,6 @@ typedef uint32_t blockid_t;
 class disk {
  private:
   unsigned char blocks[BLOCK_NUM][BLOCK_SIZE];
-
  public:
   disk();
   void read_block(uint32_t id, char *buf);
@@ -36,12 +38,16 @@ class block_manager {
  private:
   disk *d;
   std::map <uint32_t, int> using_blocks;
+  pthread_mutex_t bitmapLock;
  public:
   block_manager();
   struct superblock sb;
 
+
   uint32_t alloc_block();
   void free_block(uint32_t id);
+  uint32_t Alloc_block();
+  void Free_block(uint32_t id);
   void read_block(uint32_t id, char *buf);
   void write_block(uint32_t id, const char *buf);
 };
@@ -62,7 +68,6 @@ class block_manager {
 
 // Block containing bit for block b
 #define BBLOCK(b) ((b)/BPB + 2)
-
 #define NDIRECT 100
 #define NINDIRECT (BLOCK_SIZE / sizeof(uint))
 #define MAXFILE (NDIRECT + NINDIRECT)
@@ -79,6 +84,7 @@ typedef struct inode {
 class inode_manager {
  private:
   block_manager *bm;
+  pthread_mutex_t inodemapLock;
   struct inode* get_inode(uint32_t inum);
   void put_inode(uint32_t inum, struct inode *ino);
 
@@ -86,6 +92,8 @@ class inode_manager {
   inode_manager();
   uint32_t alloc_inode(uint32_t type);
   void free_inode(uint32_t inum);
+  uint32_t Alloc_inode(uint32_t type);
+  void Free_inode(uint32_t inum);
   void read_file(uint32_t inum, char **buf, int *size);
   void write_file(uint32_t inum, const char *buf, int size);
   void remove_file(uint32_t inum);

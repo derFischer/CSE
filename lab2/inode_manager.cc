@@ -34,6 +34,14 @@ disk::write_block(blockid_t id, const char *buf)
 blockid_t
 block_manager::alloc_block()
 {
+  pthread_mutex_lock(&bitmapLock); 
+  blockid_t block = Alloc_block();
+  pthread_mutex_unlock(&bitmapLock); 
+  return block;
+}
+blockid_t
+block_manager::Alloc_block()
+{
   /*
    * your code goes here.
    * note: you should mark the corresponding bit in block bitmap when alloc.
@@ -64,6 +72,14 @@ block_manager::alloc_block()
 void
 block_manager::free_block(uint32_t id)
 {
+  pthread_mutex_lock(&bitmapLock); 
+  Free_block(id);
+  pthread_mutex_unlock(&bitmapLock); 
+  return;
+}
+void
+block_manager::Free_block(uint32_t id)
+{
   /* 
    * your code goes here.
    * note: you should unmark the corresponding bit in the block bitmap when free.
@@ -88,7 +104,7 @@ block_manager::free_block(uint32_t id)
 block_manager::block_manager()
 {
   d = new disk();
-
+  pthread_mutex_init(&bitmapLock,NULL);  
   // format the disk
   sb.size = BLOCK_SIZE * BLOCK_NUM;
   sb.nblocks = BLOCK_NUM;
@@ -129,6 +145,7 @@ block_manager::write_block(uint32_t id, const char *buf)
 inode_manager::inode_manager()
 {
   bm = new block_manager();
+  pthread_mutex_init(&inodemapLock,NULL);  
   uint32_t root_dir = alloc_inode(extent_protocol::T_DIR);
   if (root_dir != 1) {
     printf("\tim: error! alloc first inode %d, should be 1\n", root_dir);
@@ -140,6 +157,14 @@ inode_manager::inode_manager()
  * Return its inum. */
 uint32_t
 inode_manager::alloc_inode(uint32_t type)
+{
+  pthread_mutex_lock(&inodemapLock); 
+  uint32_t inum = Alloc_inode(type);
+  pthread_mutex_unlock(&inodemapLock); 
+  return inum;
+}
+uint32_t
+inode_manager::Alloc_inode(uint32_t type)
 {
   /* 
    * your code goes here.
@@ -169,6 +194,14 @@ inode_manager::alloc_inode(uint32_t type)
 void
 inode_manager::free_inode(uint32_t inum)
 {
+  pthread_mutex_lock(&inodemapLock); 
+  Free_inode(inum);
+  pthread_mutex_unlock(&inodemapLock);
+  return;
+}
+void
+inode_manager::Free_inode(uint32_t inum)
+{
   /* 
    * your code goes here.
    * note: you need to check if the inode is already a freed one;
@@ -176,7 +209,7 @@ inode_manager::free_inode(uint32_t inum)
    */
   char tmp[BLOCK_SIZE];
   bm->read_block(IBLOCK(inum, BLOCK_NUM), tmp);
-  struct inode* inode = (struct inode*)(tmp) + inum % IPB;
+  struct inode* inode = (struct inode*)(tmp) + (inum - 1)% IPB;
 
   //if the inode has been already freed, just return
   if(inode->type == 0)
@@ -215,7 +248,7 @@ inode_manager::get_inode(uint32_t inum)
   bm->read_block(IBLOCK(inum, bm->sb.nblocks), buf);
   // printf("%s:%d\n", __FILE__, __LINE__);
 
-  ino_disk = (struct inode*)buf + (inum - 1)%IPB;
+  ino_disk = (struct inode*)buf + (inum - 1) % IPB;
   if (ino_disk->type == 0) {
     printf("\tim: inode not exist\n");
     return NULL;
@@ -238,7 +271,7 @@ inode_manager::put_inode(uint32_t inum, struct inode *ino)
     return;
 
   bm->read_block(IBLOCK(inum, bm->sb.nblocks), buf);
-  ino_disk = (struct inode*)buf + (inum - 1)%IPB;
+  ino_disk = (struct inode*)buf + (inum - 1) % IPB;
   *ino_disk = *ino;
   bm->write_block(IBLOCK(inum, bm->sb.nblocks), buf);
 }
@@ -426,7 +459,7 @@ inode_manager::getattr(uint32_t inum, extent_protocol::attr &a)
    */
   char tmp[BLOCK_SIZE];
   bm->read_block(IBLOCK(inum, BLOCK_NUM), tmp);
-  struct inode* t = (struct inode*)(tmp) + inum % IPB;
+  struct inode* t = (struct inode*)(tmp) + (inum - 1) % IPB;
   if(t -> type == 0)
   {
     printf("\tim:inode is NULL!\n");
@@ -452,7 +485,7 @@ inode_manager::remove_file(uint32_t inum)
    */
   char tmp[BLOCK_SIZE];
   bm->read_block(IBLOCK(inum, BLOCK_NUM), tmp);
-  struct inode* t = (struct inode*)(tmp) + inum % IPB;
+  struct inode* t = (struct inode*)(tmp) + (inum - 1) % IPB;
   vector<blockid_t> results = getBlockOfInode(t, bm);
   for(unsigned int i = 0;i<results.size();i++)
   {
