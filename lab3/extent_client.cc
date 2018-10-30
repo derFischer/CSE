@@ -12,8 +12,7 @@ extent_client::extent_client(std::string dst)
   sockaddr_in dstsock;
   make_sockaddr(dst.c_str(), &dstsock);
   cl = new rpcc(dstsock);
-  if (cl->bind() != 0)
-  {
+  if (cl->bind() != 0) {
     printf("extent_client: bind failed\n");
   }
 }
@@ -38,8 +37,8 @@ extent_client::get(extent_protocol::extentid_t eid, std::string &buf)
 }
 
 extent_protocol::status
-extent_client::getattr(extent_protocol::extentid_t eid,
-                       extent_protocol::attr &attr)
+extent_client::getattr(extent_protocol::extentid_t eid, 
+		       extent_protocol::attr &attr)
 {
   extent_protocol::status ret = extent_protocol::OK;
   ret = cl->call(extent_protocol::getattr, eid, attr);
@@ -51,8 +50,8 @@ extent_client::put(extent_protocol::extentid_t eid, std::string buf)
 {
   extent_protocol::status ret = extent_protocol::OK;
   // Your lab2 part1 code goes here
-  int i;
-  ret = cl->call(extent_protocol::put, eid, buf, i);
+  int r;
+  ret = cl->call(extent_protocol::put, eid, buf, r);
   return ret;
 }
 
@@ -61,7 +60,9 @@ extent_client::remove(extent_protocol::extentid_t eid)
 {
   extent_protocol::status ret = extent_protocol::OK;
   // Your lab2 part1 code goes here
-  int i;
-  ret = cl->call(extent_protocol::remove, eid, i);
+  int r;
+  ret = cl->call(extent_protocol::remove, eid, r);
   return ret;
 }
+
+

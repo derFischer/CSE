@@ -10,105 +10,83 @@
 #include "extent_client.h"
 #include <vector>
 
-class yfs_client
-{
+
+class yfs_client {
   extent_client *ec;
   lock_client *lc;
+ public:
 
-public:
   typedef unsigned long long inum;
-  enum xxstatus
-  {
-    OK,
-    RPCERR,
-    NOENT,
-    IOERR,
-    EXIST
-  };
+  enum xxstatus { OK, RPCERR, NOENT, IOERR, EXIST };
   typedef int status;
 
-  struct fileinfo
-  {
+  struct fileinfo {
     unsigned long long size;
     unsigned long atime;
     unsigned long mtime;
     unsigned long ctime;
   };
-  struct dirinfo
-  {
+  struct dirinfo {
     unsigned long atime;
     unsigned long mtime;
     unsigned long ctime;
   };
-  struct symlinkinfo
-  {
+  struct symlinkinfo {
     unsigned long long size;
     unsigned long atime;
     unsigned long mtime;
     unsigned long ctime;
   };
-  struct dirent
-  {
+  struct dirent {
     std::string name;
     yfs_client::inum inum;
   };
 
-private:
+ private:
   static std::string filename(inum);
   static inum n2i(std::string);
 
-  void acquirelock(inum);
-  void releaselock(inum);
-  void acquireBitmap();
-  void releaseBitmap();
-
-  bool isfile_l(inum);
-  bool isdir_l(inum);
-  bool issymlink_l(inum);
-
-  int getfile_l(inum, fileinfo &);
-  int getdir_l(inum, dirinfo &);
-  int getsymlink_l(inum, symlinkinfo &);
-
-  int setattr_l(inum, size_t);
-  int lookup_l(inum, const char *, bool &, inum &);
-  int addDirent_l(inum, dirent);
-  int deleteDirent_l(inum, const char *);
-  int create_l(inum, const char *, mode_t, inum &);
-  int readdir_l(inum, std::list<dirent> &);
-  int write_l(inum, size_t, off_t, const char *, size_t &);
-  int read_l(inum, size_t, off_t, std::string &);
-  int unlink_l(inum, const char *);
-  int mkdir_l(inum, const char *, mode_t, inum &);
-  int symlink_l(inum, const char *, const char *name, inum &);
-  int readlink_l(inum, std::string &);
-
-public:
-  yfs_client();
+ public:
   yfs_client(std::string, std::string);
 
   bool isfile(inum);
   bool isdir(inum);
-  bool issymlink(inum);
+  bool issymlink(inum inum);
+  bool Isfile(inum);
+  bool Isdir(inum);
+  bool Issymlink(inum inum);
 
   int getfile(inum, fileinfo &);
   int getdir(inum, dirinfo &);
-  int getsymlink(inum, symlinkinfo &);
+  int getsymlink(inum inum, symlinkinfo &symlink);
+  int Getfile(inum, fileinfo &);
+  int Getdir(inum, dirinfo &);
+  int Getsymlink(inum inum, symlinkinfo &symlink);
 
   int setattr(inum, size_t);
+  int Setattr(inum, size_t);
   int lookup(inum, const char *, bool &, inum &);
-  int addDirent(inum, dirent);
-  int deleteDirent(inum, const char *);
+  int Lookup(inum, const char *, bool &, inum &);
   int create(inum, const char *, mode_t, inum &);
+  int Create(inum, const char *, mode_t, inum &);
   int readdir(inum, std::list<dirent> &);
+  int Readdir(inum, std::list<dirent> &);
   int write(inum, size_t, off_t, const char *, size_t &);
+  int Write(inum, size_t, off_t, const char *, size_t &);
   int read(inum, size_t, off_t, std::string &);
-  int unlink(inum, const char *);
-  int mkdir(inum, const char *, mode_t, inum &);
-  int symlink(inum, const char *, const char *name, inum &);
-  int readlink(inum, std::string &);
+  int Read(inum, size_t, off_t, std::string &);
+  int unlink(inum,const char *);
+  int Unlink(inum,const char *);
+  int mkdir(inum , const char *, mode_t , inum &);
+  int Mkdir(inum , const char *, mode_t , inum &);
+  int readlink(inum ino, std::string &dest);
+  int Readlink(inum ino, std::string &dest);
+  int symlink(inum parent, const char *name, inum &ino_out, const char *dest);
+  int Symlink(inum parent, const char *name, inum &ino_out, const char *dest);
+  bool dupFileName(inum parent, const char *name);
+  int updateDirListAdd(inum parent, dirent item);
+  int updateDirListRemove(inum parent, dirent item);
   /** you may need to add symbolic link related methods here.*/
 };
 
-#endif
-
+#endif 

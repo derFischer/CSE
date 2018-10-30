@@ -5,18 +5,23 @@
 #define lock_server_h
 
 #include <string>
+#include <map>
 #include "lock_protocol.h"
 #include "lock_client.h"
 #include "rpc.h"
-#include <map>
+
+struct lock
+{
+  bool acquired;
+  pthread_cond_t cv;
+};
 
 class lock_server {
-
  protected:
+
   int nacquire;
-  std::map<lock_protocol::lockid_t, int> lock_map;
-  std::map<lock_protocol::lockid_t, pthread_cond_t> lock_cond_map;
   pthread_mutex_t mutex;
+  std::map<lock_protocol::lockid_t, lock> locks;
 
  public:
   lock_server();
