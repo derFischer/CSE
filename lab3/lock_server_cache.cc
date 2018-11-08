@@ -33,15 +33,15 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
     pthread_cond_wait(&reqs[id].clientReq, &sm);
   }
 
-  //deal with the req
+  //the reqId should be updated first in case of duplicated request handle
   reqs[id] = reqId;
+  //deal with the req
   if (owners.find(lid) == owners.end() || owners[lid].acquired == false)
   {
     lockInfo tmp;
     tmp.owner = id;
     tmp.acquired = true;
     owners[lid] = tmp;
-    return ret;
   }
   else
   {
@@ -53,10 +53,22 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
 
     //revoke the current owner
     owner = owners[lid].owner;
-
+    handle h(owner);
+    rpcc *cl = h.safebind();
+    if (cl)
+    {
+      pthread_mutex_unlock(&sm);
+      int r;
+      ret = cl->call(rlock_protocol::revoke, lid, r);
+      pthread_mutex_lock(&sm);
+    }
+    else
+    {
+      printf("bind failed\n");
+    }
     ret = r = lock_protocol::status WAIT;
-    return ret;
   }
+  pthread_mutex_unlock(&sm);
   return ret;
 }
 
@@ -86,7 +98,6 @@ int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int 
   if (owners[lid].waitingQ.empty())
   {
     owners[lid].acquired = false;
-    pthread_mutex_unlock(&lock);
   }
   else
   {
@@ -94,11 +105,25 @@ int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int 
     std::string next = owners[lid].waitingQ.pop();
     owners[lid].giveTo = next;
 
-    if ()
+    handle h(next);
+    rpcc *cl = h.safebind();
+    if (cl)
+    {
+      pthread_mutex_unlock(&sm);
+      int r;
+      ret = cl->call(rlock_protocol::grant, lid, r);
+      pthread_mutex_lock(&sm);
+    }
+    else
+    {
+      printf("bind failed\n");
+    }
+    if (ret == rlock_protocol::OK)
     {
       owners[lid].owner = next;
     }
   }
+  pthread_mutex_unlock(&sm);
   return ret;
 }
 
