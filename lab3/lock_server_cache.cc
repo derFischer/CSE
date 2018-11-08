@@ -11,7 +11,7 @@
 
 lock_server_cache::lock_server_cache()
 {
-  pthread_mutex_init(&sm);
+  pthread_mutex_init(&sm, NULL);
 }
 
 int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int reqId,
