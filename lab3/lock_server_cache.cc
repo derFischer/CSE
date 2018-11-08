@@ -23,7 +23,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
   //if it is a stale req
   if (reqs[id].reqId >= reqId)
   {
-    ret = r = lock_protocol::status EXPIRED;
+    ret = r = lock_protocol::EXPIRED;
     pthread_mutex_unlock(&sm);
     return ret;
   }
@@ -35,7 +35,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
   }
 
   //the reqId should be updated first in case of duplicated request handle
-  reqs[id] = reqId;
+  reqs[id].reqId = reqId;
   //deal with the req
   if (owners.find(lid) == owners.end() || owners[lid].acquired == false)
   {
@@ -55,7 +55,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
     }
 
     //revoke the current owner
-    owner = owners[lid].owner;
+    std::string owner = owners[lid].owner;
     handle h(owner);
     rpcc *cl = h.safebind();
     if (cl)
@@ -70,7 +70,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
       printf("bind failed\n");
     }
     owners[lid].waitingQ.push(id);
-    ret = r = lock_protocol::status WAIT;
+    ret = r = lock_protocol::WAIT;
   }
   pthread_mutex_unlock(&sm);
   return ret;
@@ -80,11 +80,11 @@ int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int 
                                int &r)
 {
   lock_protocol::status ret = lock_protocol::OK;
-  pthread_mutex_lock(&lock);
+  pthread_mutex_lock(&sm);
   //if it is a stale req
   if (reqs[id].reqId >= reqId)
   {
-    ret = r = lock_protocol::status EXPIRED;
+    ret = r = lock_protocol::EXPIRED;
     pthread_mutex_unlock(&sm);
     return ret;
   }
@@ -96,7 +96,7 @@ int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int 
   }
 
   //deal with the req
-  reqs[id] = reqId;
+  reqs[id].reqId = reqId;
 
   //if the waiting queue is empty, mark the lock as free
   if (owners[lid].waitingQ.empty())
@@ -106,7 +106,8 @@ int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int 
   else
   {
     //else, grant the lock to the next client
-    std::string next = owners[lid].waitingQ.pop();
+    std::string next = owners[lid].waitingQ.front();
+    owners[lid].waitingQ.pop();
     owners[lid].giveTo = next;
 
     handle h(next);
