@@ -169,7 +169,7 @@ lock_client_cache::revoke_handler(lock_protocol::lockid_t lid,
   pthread_mutex_lock(&cm);
   while (locks[lid].state != FREE)
   {
-    pthread_cond_wait(&locks[lid].freeCv);
+    pthread_cond_wait(&locks[lid].freeCv, &cm);
   }
   locks[lid].state = RELEASING;
   int reqId = locks[lid].maxReqId++;
