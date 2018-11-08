@@ -14,6 +14,7 @@ lock_client_cache::lock_client_cache(std::string xdst,
                                      class lock_release_user *_lu)
     : lock_client(xdst), lu(_lu)
 {
+  pthread_mutex_init(&cm);
   srand(time(NULL) ^ last_port);
   rlock_port = ((rand() % 32000) | (0x1 << 10));
   const char *hname;
@@ -40,6 +41,10 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     tmp.state = NONE;
     tmp.maxReqId = 0;
     tmp.got = false;
+    tmp.acquireCv = PTHREAD_COND_INITIALIZER;
+    tmp.releaseCv = PTHREAD_COND_INITIALIZER;
+    tmp.waitCv = PTHREAD_COND_INITIALIZER;
+    tmp.freeCv = PTHREAD_COND_INITIALIZER;
     locks[lid] = tmp;
   }
   while (true)
@@ -196,7 +201,7 @@ rlock_protocol::status
 lock_client_cache::grant_handler(lock_protocol::lockid_t lid,
                                  int &)
 {
-  int ret = tlock_protocol::OK;
+  int ret = rlock_protocol::OK;
   pthread_mutex_lock(&cm);
   locks[lid].got = true;
   pthread_cond_signal(&locks[lid].acquireCv);

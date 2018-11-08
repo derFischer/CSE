@@ -11,6 +11,7 @@
 
 lock_server_cache::lock_server_cache()
 {
+  pthread_mutex_init(&sm);
 }
 
 int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int reqId,
@@ -40,7 +41,9 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
   {
     lockInfo tmp;
     tmp.owner = id;
+    tmp.giveTo = id;
     tmp.acquired = true;
+    tmp.grantSuccess = PTHREAD_COND_INITIALIZER;
     owners[lid] = tmp;
   }
   else
@@ -66,6 +69,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
     {
       printf("bind failed\n");
     }
+    owners[lid].waitingQ.push(id);
     ret = r = lock_protocol::status WAIT;
   }
   pthread_mutex_unlock(&sm);
