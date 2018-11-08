@@ -25,7 +25,7 @@ struct lockInstance
   pthread_cond_t releaseCv;
   pthread_cond_t waitCv;
   pthread_cond_t freeCv;
-}
+};
 
 class lock_release_user {
  public:

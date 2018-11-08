@@ -14,7 +14,7 @@ struct req
 {
   int reqId;
   pthread_cond_t clientReq;
-}
+};
 
 struct lockInfo
 {
@@ -23,7 +23,7 @@ struct lockInfo
   std::string giveTo;
   pthread_cond_t grantSuccess;
   std::queue<std::string> waitingQ;
-}
+};
 
 class lock_server_cache {
  private:
