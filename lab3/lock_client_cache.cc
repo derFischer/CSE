@@ -48,7 +48,7 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     locks[lid] = tmp;
   }
   int thisReqId = locks[lid].maxReqId;
-  tprintf("client %s try to acquire a lock %d with request ID %d\n", id, lid, thisReqId);
+  tprintf("client %s try to acquire a lock %d with request ID %d\n", id.c_str(), lid, thisReqId);
   while (true)
   {
     switch (locks[lid].state)
