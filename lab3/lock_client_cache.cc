@@ -57,6 +57,7 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
       locks[lid].got = false;
       int reqId = locks[lid].maxReqId++;
       pthread_mutex_unlock(&cm);
+      int r;
       ret = cl->call(lock_protocol::acquire, lid, id, reqId, r);
       pthread_mutex_lock(&cm);
       if (ret == lock_protocol::OK)
@@ -174,6 +175,7 @@ lock_client_cache::revoke_handler(lock_protocol::lockid_t lid,
   locks[lid].state = RELEASING;
   int reqId = locks[lid].maxReqId++;
   pthread_mutex_unlock(&cm);
+  int r;
   ret = cl->call(lock_protocol::release, lid, id, reqId, r);
   pthread_mutex_lock(&cm);
   if (ret == lock_protocol::OK)
