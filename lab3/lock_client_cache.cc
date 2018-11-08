@@ -62,7 +62,7 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
       pthread_mutex_lock(&cm);
       if (ret == lock_protocol::OK)
       {
-        locks[lid] = LOCKED;
+        locks[lid].state = LOCKED;
         pthread_mutex_unlock(&cm);
         return ret;
       }
