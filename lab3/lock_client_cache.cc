@@ -197,6 +197,7 @@ lock_client_cache::retry_handler(lock_protocol::lockid_t lid,
   pthread_mutex_unlock(&cm);
   int ret = rlock_protocol::OK;
   return ret;*/
+  return rlock_protocol::OK;
 }
 
 rlock_protocol::status
