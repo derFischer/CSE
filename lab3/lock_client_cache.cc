@@ -8,15 +8,14 @@
 #include <stdio.h>
 #include "tprintf.h"
 
-
 int lock_client_cache::last_port = 0;
 
-lock_client_cache::lock_client_cache(std::string xdst, 
-				     class lock_release_user *_lu)
-  : lock_client(xdst), lu(_lu)
+lock_client_cache::lock_client_cache(std::string xdst,
+                                     class lock_release_user *_lu)
+    : lock_client(xdst), lu(_lu)
 {
-  srand(time(NULL)^last_port);
-  rlock_port = ((rand()%32000) | (0x1 << 10));
+  srand(time(NULL) ^ last_port);
+  rlock_port = ((rand() % 32000) | (0x1 << 10));
   const char *hname;
   // VERIFY(gethostname(hname, 100) == 0);
   hname = "127.0.0.1";
@@ -27,37 +26,180 @@ lock_client_cache::lock_client_cache(std::string xdst,
   rpcs *rlsrpc = new rpcs(rlock_port);
   rlsrpc->reg(rlock_protocol::revoke, this, &lock_client_cache::revoke_handler);
   rlsrpc->reg(rlock_protocol::retry, this, &lock_client_cache::retry_handler);
+  rlsrpc->reg(rlock_protocol::grant, this, &lock_client_cache::grant_handler);
 }
 
 lock_protocol::status
 lock_client_cache::acquire(lock_protocol::lockid_t lid)
 {
   int ret = lock_protocol::OK;
+  pthread_mutex_lock(&cm);
+  if (locks.find(lid) == locks.end())
+  {
+    lockInstance tmp;
+    tmp.state = NONE;
+    tmp.maxReqId = 0;
+    tmp.got = false;
+    locks[lid] = tmp;
+  }
+  while (true)
+  {
+    switch (locks[lid].state)
+    {
+    case NONE:
+    {
+      locks[lid].state = ACQUIRING;
+      locks[lid].got = false;
+      int reqId = locks[lid].maxReqId++;
+      pthread_mutex_unlock(&cm);
+      ret = cl->call(lock_protocol::acquire, lid, id, reqId, r);
+      pthread_mutex_lock(&cm);
+      if (ret == lock_protocol::OK)
+      {
+        locks[lid] = LOCKED;
+        pthread_mutex_unlock(&cm);
+        return ret;
+      }
+      else if (ret == lock_protocol::WAIT)
+      {
+        if (!locks[lid].got)
+        {
+          pthread_cond_wait(&locks[lid].acquireCv, &cm);
+        }
+        locks[lid].state = LOCKED;
+        return ret;
+      }
+    }
+    case FREE:
+    {
+      locks[lid].state = LOCKED;
+      pthread_mutex_unlock(&cm);
+      return ret;
+    }
+    case LOCKED:
+    case ACQUIRING:
+    {
+      pthread_cond_wait(&locks[lid].waitCv, &cm);
+      break;
+      /*if (!locks[lid].retry)
+    {
+      pthread_cond_wait(&locks[lid].waitCv, &cm);
+      break;
+    }
+    else
+    {
+      locks[lid].retry = false;
+      pthread_mutex_unlock(&cm);
+      ret = cl->call(lock_protocol::acquire, lid, id, reqId, r);
+      pthread_mutex_lock(&cm);
+      if (ret == lock_protocol::OK)
+      {
+        locks[lid] = LOCKED;
+        pthread_mutex_unlock(&cm);
+        return ret;
+      }
+      else if (ret == lock_protocol::RETRY)
+      {
+        if (!locks[lid].retry)
+        {
+          pthread_cond_wait(&locks[lid].acquireCv, &cm);
+        }
+      }
+      break;
+    }*/
+    }
+    case RELEASING:
+    {
+      pthread_cond_wait(&locks[lid].releaseCv, &cm);
+      /*locks[lid].state = ACQUIRING;
+    locks[lid].retry = false;
+    int reqId = locks[lid].maxReqId++;
+    pthread_mutex_unlock(&cm);
+    ret = cl->call(lock_protocol::acquire, lid, id, reqId, r);
+    pthread_mutex_lock(&cm);
+    if (ret == lock_protocol::OK)
+    {
+      locks[lid] = LOCKED;
+      pthread_mutex_unlock(&cm);
+      return ret;
+    }
+    else if (ret == lock_protocol::RETRY)
+    {
+      while(!locks[lid].retry)
+      {
+        pthread_cond_wait(&locks[lid].acquireCv, &cm);
+      }
+      locks[lid].state = LOCKED;
+      return ret;
+    }*/
+    }
+    }
+  }
   return ret;
 }
 
 lock_protocol::status
 lock_client_cache::release(lock_protocol::lockid_t lid)
 {
-  return lock_protocol::OK;
-
+  int ret = lock_protocol::OK;
+  pthread_mutex_lock(&cm);
+  if (locks[lid].state != LOCKED)
+  {
+  }
+  else
+  {
+    locks[lid].state = FREE;
+    pthread_cond_signal(&locks[lid].freeCv);
+    pthread_cond_signal(&locks[lid].waitCv);
+  }
+  pthread_mutex_unlock(&cm);
+  return ret;
 }
 
 rlock_protocol::status
-lock_client_cache::revoke_handler(lock_protocol::lockid_t lid, 
+lock_client_cache::revoke_handler(lock_protocol::lockid_t lid,
                                   int &)
 {
   int ret = rlock_protocol::OK;
+  pthread_mutex_lock(&cm);
+  while (locks[lid].state != FREE)
+  {
+    pthread_cond_wait(&locks[lid].freeCv);
+  }
+  locks[lid].state = RELEASING;
+  int reqId = locks[lid].maxReqId++;
+  pthread_mutex_unlock(&cm);
+  ret = cl->call(lock_protocol::release, lid, id, reqId, r);
+  pthread_mutex_lock(&cm);
+  if (ret == lock_protocol::OK)
+  {
+    locks[lid].got = false;
+    pthread_cond_signal(&locks[lid].releaseCv);
+  }
+  pthread_mutex_unlock(&cm);
   return ret;
 }
 
 rlock_protocol::status
-lock_client_cache::retry_handler(lock_protocol::lockid_t lid, 
+lock_client_cache::retry_handler(lock_protocol::lockid_t lid,
                                  int &)
 {
+  /*pthread_mutex_lock(&cm);
+  lid[lid].retry = true;
+  pthread_cond_signal(&locks[lid].acquireCv);
+  pthread_mutex_unlock(&cm);
   int ret = rlock_protocol::OK;
-  return ret;
+  return ret;*/
 }
 
-
-
+rlock_protocol::status
+lock_client_cache::grant_handler(lock_protocol::lockid_t lid,
+                                 int &)
+{
+  int ret = tlock_protocol::OK;
+  pthread_mutex_lock(&cm);
+  locks[lid].got = true;
+  pthread_cond_signal(&locks[lid].acquireCv);
+  pthread_mutex_unlock(&cm);
+  return ret;
+}

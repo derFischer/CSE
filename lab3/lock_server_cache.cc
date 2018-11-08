@@ -9,24 +9,96 @@
 #include "handle.h"
 #include "tprintf.h"
 
-
 lock_server_cache::lock_server_cache()
 {
 }
 
-
-int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, 
-                               int &)
+int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int reqId,
+                               int &r)
 {
   lock_protocol::status ret = lock_protocol::OK;
+  r = lock_protocol::OK;
+  pthread_mutex_lock(&sm);
+  //if it is a stale req
+  if (reqs[id].reqId >= reqId)
+  {
+    ret = r = lock_protocol::status EXPIRED;
+    pthread_mutex_unlock(&sm);
+    return ret;
+  }
+
+  //wait for the previous req to be done
+  while (reqs[id].reqId < reqId - 1)
+  {
+    pthread_cond_wait(&reqs[id].clientReq, &sm);
+  }
+
+  //deal with the req
+  reqs[id] = reqId;
+  if (owners.find(lid) == owners.end() || owners[lid].acquired == false)
+  {
+    lockInfo tmp;
+    tmp.owner = id;
+    tmp.acquired = true;
+    owners[lid] = tmp;
+    return ret;
+  }
+  else
+  {
+    //wait for the grant process to be done
+    while (owners[lid].owner != owners[lid].giveTo)
+    {
+      pthread_cond_wait(&owners[lid].grantSuccess, &sm);
+    }
+
+    //revoke the current owner
+    owner = owners[lid].owner;
+
+    ret = r = lock_protocol::status WAIT;
+    return ret;
+  }
   return ret;
 }
 
-int 
-lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, 
-         int &r)
+int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int reqId,
+                               int &r)
 {
   lock_protocol::status ret = lock_protocol::OK;
+  pthread_mutex_lock(&lock);
+  //if it is a stale req
+  if (reqs[id].reqId >= reqId)
+  {
+    ret = r = lock_protocol::status EXPIRED;
+    pthread_mutex_unlock(&sm);
+    return ret;
+  }
+
+  //wait for the previous req to be done
+  while (reqs[id].reqId < reqId - 1)
+  {
+    pthread_cond_wait(&reqs[id].clientReq, &sm);
+  }
+
+  //deal with the req
+  reqs[id] = reqId;
+
+  //if the waiting queue is empty, mark the lock as free
+  if (owners[lid].waitingQ.empty())
+  {
+    owners[lid].acquired = false;
+    pthread_mutex_unlock(&lock);
+  }
+  else
+  {
+    //else, grant the lock to the next client
+    std::string next = owners[lid].waitingQ.pop();
+    owners[lid].giveTo = next;
+
+    if ()
+    {
+      owners[lid].owner = next;
+    }
+  }
   return ret;
 }
 
@@ -37,4 +109,3 @@ lock_server_cache::stat(lock_protocol::lockid_t lid, int &r)
   r = nacquire;
   return lock_protocol::OK;
 }
-
