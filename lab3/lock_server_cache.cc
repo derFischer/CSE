@@ -17,12 +17,14 @@ lock_server_cache::lock_server_cache()
 int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int reqId,
                                int &r)
 {
+  printf("server: client %s try to acquire a lock %d with request ID %d\n", id.c_str(), lid, reqId);
   lock_protocol::status ret = lock_protocol::OK;
   r = lock_protocol::OK;
   pthread_mutex_lock(&sm);
   //if it is a stale req
   if (reqs[id].reqId >= reqId)
   {
+    printf("server: client %s try to acquire a lock %d with request ID %d STALE\n", id.c_str(), lid, reqId);
     ret = r = lock_protocol::EXPIRED;
     pthread_mutex_unlock(&sm);
     return ret;
@@ -39,6 +41,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
   //deal with the req
   if (owners.find(lid) == owners.end() || owners[lid].acquired == false)
   {
+    printf("server: client %s try to acquire a lock %d with request ID %d SUCCESS\n", id.c_str(), lid, reqId);
     lockInfo tmp;
     tmp.owner = id;
     tmp.giveTo = id;
@@ -69,6 +72,8 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
     {
       printf("bind failed\n");
     }
+    printf("server: revoke client %s lockid: %d\n", owner.c_str(), lid);
+    printf("server: client %s try to acquire a lock %d with request ID %d WAIT\n", id.c_str(), lid, reqId);
     owners[lid].waitingQ.push(id);
     ret = r = lock_protocol::WAIT;
   }
@@ -79,6 +84,7 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
 int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int reqId,
                                int &r)
 {
+  printf("server: client %s try to release a lock %d with request ID %d WAIT\n", id.c_str(), lid, reqId);
   lock_protocol::status ret = lock_protocol::OK;
   pthread_mutex_lock(&sm);
   //if it is a stale req
