@@ -30,7 +30,7 @@ class lock_server_cache {
   int nacquire;
   pthread_mutex_t sm;
   std::map<lock_protocol::lockid_t, lockInfo> owners;
-  std::map<std::string, req> reqs;
+  std::map<std::string, std::map<lock_protocol::lockid_t, req> > reqs;
 
  public:
   lock_server_cache();

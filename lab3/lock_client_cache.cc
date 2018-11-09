@@ -39,7 +39,7 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
   {
     lockInstance tmp;
     tmp.state = NONE;
-    tmp.maxReqId = 0;
+    tmp.maxReqId = 1;
     tmp.got = false;
     tmp.acquireCv = PTHREAD_COND_INITIALIZER;
     tmp.releaseCv = PTHREAD_COND_INITIALIZER;
@@ -48,7 +48,7 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     locks[lid] = tmp;
   }
   int thisReqId = locks[lid].maxReqId;
-  printf("client: client %s try to acquire a lock %d with request ID %d\n", id.c_str(), lid, thisReqId);
+  //printf("client: client %s try to acquire a lock\n", id.c_str(), lid, thisReqId);
   while (true)
   {
     switch (locks[lid].state)
@@ -66,25 +66,29 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
       {
         locks[lid].state = LOCKED;
         pthread_mutex_unlock(&cm);
-        printf("client: client %s acquired a lock %d with request ID %d directly\n", id.c_str(), lid, thisReqId);
+        //printf("client: client %s acquired a lock %d with request ID %d directly\n", id.c_str(), lid, thisReqId);
         return ret;
       }
       else if (ret == lock_protocol::WAIT)
       {
-        printf("client: client %s acquired a lock %d with request ID %d failed and need to WAIT\n", id.c_str(), lid, thisReqId);
+        //printf("client: client %s acquired a lock %d with request ID %d failed and need to WAIT\n", id.c_str(), lid, thisReqId);
         if (!locks[lid].got)
         {
           pthread_cond_wait(&locks[lid].acquireCv, &cm);
         }
-        printf("client: client %s WAITSUCCESS a lock %d with request ID %d\n", id.c_str(), lid, thisReqId);
+        //printf("client: client %s WAITSUCCESS a lock %d with request ID %d\n", id.c_str(), lid, thisReqId);
         locks[lid].state = LOCKED;
         pthread_mutex_unlock(&cm);
+        return ret;
+      }
+      else if (ret == lock_protocol::EXPIRED)
+      {
         return ret;
       }
     }
     case FREE:
     {
-      printf("client: client %s acquired a lock %d with request ID %d which is FREE and can be acquired directly\n", id.c_str(), lid, thisReqId);
+      //printf("client: client %s acquired a lock %d with request ID %d which is FREE and can be acquired directly\n", id.c_str(), lid, thisReqId);
       locks[lid].state = LOCKED;
       pthread_mutex_unlock(&cm);
       return ret;
@@ -92,7 +96,7 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     case LOCKED:
     case ACQUIRING:
     {
-      printf("client: client %s acquired a lock %d with request ID %d which is LOCKED/ACQUIRING and need to WAIT\n", id.c_str(), lid, thisReqId);
+      //printf("client: client %s acquired a lock %d with request ID %d which is LOCKED/ACQUIRING and need to WAIT\n", id.c_str(), lid, thisReqId);
       pthread_cond_wait(&locks[lid].waitCv, &cm);
       break;
       /*if (!locks[lid].retry)
@@ -124,8 +128,9 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     }
     case RELEASING:
     {
-      printf("client: client %s acquired a lock %d with request ID %d which is RELEASING and need to WAIT\n", id.c_str(), lid, thisReqId);
+      //printf("client: client %s acquired a lock %d with request ID %d which is RELEASING and need to WAIT\n", id.c_str(), lid, thisReqId);
       pthread_cond_wait(&locks[lid].releaseCv, &cm);
+      //printf("client: client %s acquired a lock %d with request ID %d AWAKE\n", id.c_str(), lid, thisReqId);
       /*locks[lid].state = ACQUIRING;
     locks[lid].retry = false;
     int reqId = locks[lid].maxReqId++;
@@ -156,11 +161,12 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
 lock_protocol::status
 lock_client_cache::release(lock_protocol::lockid_t lid)
 {
+  //printf("client: client %s try to re;e a lock\n", id.c_str(), lid, thisReqId);
   int ret = lock_protocol::OK;
   pthread_mutex_lock(&cm);
   locks[lid].state = FREE;
   pthread_cond_signal(&locks[lid].freeCv);
-  pthread_cond_signal(&locks[lid].waitCv);
+  pthread_cond_broadcast(&locks[lid].waitCv);
   pthread_mutex_unlock(&cm);
   return ret;
 }
@@ -169,7 +175,7 @@ rlock_protocol::status
 lock_client_cache::revoke_handler(lock_protocol::lockid_t lid,
                                   int &)
 {
-  printf("client: client %s deal with a revoke RPC with lid %d\n", id.c_str(), lid);
+  //printf("client: client %s deal with a revoke RPC with lid %d\n", id.c_str(), lid);
   int ret = rlock_protocol::OK;
   pthread_mutex_lock(&cm);
   while (locks[lid].state != FREE)
@@ -177,18 +183,21 @@ lock_client_cache::revoke_handler(lock_protocol::lockid_t lid,
     pthread_cond_wait(&locks[lid].freeCv, &cm);
   }
   locks[lid].state = RELEASING;
-  int reqId = locks[lid].maxReqId++;
+  int reqId = locks[lid].maxReqId++;  
   pthread_mutex_unlock(&cm);
+  //printf("client: client %s deal with a revoke RPC with lid %d 1111111111\n", id.c_str(), lid);
   int r;
   ret = cl->call(lock_protocol::release, lid, id, reqId, r);
   pthread_mutex_lock(&cm);
   if (ret == lock_protocol::OK)
   {
     locks[lid].got = false;
-    pthread_cond_signal(&locks[lid].releaseCv);
+    pthread_cond_broadcast(&locks[lid].releaseCv);
+    locks[lid].state = NONE;
+    //printf("client: client %s give back the lock with lid %d finish 1111111111\n", id.c_str(), lid);
   }
   pthread_mutex_unlock(&cm);
-  printf("client: client %s give back the lock with lid %d finish\n", id.c_str(), lid);
+  //printf("client: client %s give back the lock with lid %d finish\n", id.c_str(), lid);
   return ret;
 }
 
@@ -209,7 +218,7 @@ rlock_protocol::status
 lock_client_cache::grant_handler(lock_protocol::lockid_t lid,
                                  int &)
 {
-  printf("client: client %s deal with a grant RPC with lid %d\n", id.c_str(), lid);
+  //printf("client: client %s deal with a grant RPC with lid %d\n", id.c_str(), lid);
   int ret = rlock_protocol::OK;
   pthread_mutex_lock(&cm);
   locks[lid].got = true;

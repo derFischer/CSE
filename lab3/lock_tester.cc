@@ -101,11 +101,15 @@ test3(void *x)
 
   printf ("test3: client %d acquire a release a concurrent\n", i);
   for (int j = 0; j < 10; j++) {
+    //printf ("test3: client %d begin acquire j %d\n", i, j);
     lc[i]->acquire(a);
+    //printf ("test3: client %d finish acquire\n", i);
     check_grant(a);
     printf ("test3: client %d got lock\n", i);
     check_release(a);
+    //printf ("test3: client %d check release finish\n", i);
     lc[i]->release(a);
+    //printf ("test5: client %d check release finish1\n", i);
   }
   return 0;
 }
@@ -133,13 +137,17 @@ test5(void *x)
 
   printf ("test5: client %d acquire a release a concurrent; same and diff clnt\n", i);
   for (int j = 0; j < 10; j++) {
+    //printf ("test5: client %d begin acquire j %d\n", i, j);
     if (i < 5)  lc[0]->acquire(a);
     else  lc[1]->acquire(a);
+    //printf ("test5: client %d finish acquire\n", i);
     check_grant(a);
     printf ("test5: client %d got lock\n", i);
     check_release(a);
+    //printf ("test5: client %d check release finish\n", i);
     if (i < 5) lc[0]->release(a);
     else lc[1]->release(a);
+    //printf ("test5: client %d check release finish1\n", i);
   }
   return 0;
 }

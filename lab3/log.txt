@@ -1,0 +1,119 @@
+cache lock client
+acquire a release a acquire a release a
+client: client 127.0.0.1:1654 try to acquire a lock 1 with request ID 1
+client: client 127.0.0.1:1654 acquired a lock 1 with request ID 1 directly
+client: client 127.0.0.1:1654 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:1654 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+acquire a acquire b release b release a
+client: client 127.0.0.1:1654 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:1654 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+client: client 127.0.0.1:1654 try to acquire a lock 2 with request ID 1
+client: client 127.0.0.1:1654 acquired a lock 2 with request ID 1 directly
+test2: client 0 acquire a release a
+client: client 127.0.0.1:1654 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:1654 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test2: client 0 acquire done
+test2: client 1 acquire a release a
+client: client 127.0.0.1:5629 try to acquire a lock 1 with request ID 1
+test2: client 2 acquire a release a
+client: client 127.0.0.1:15487 try to acquire a lock 1 with request ID 1
+test2: client 4 acquire a release a
+client: client 127.0.0.1:13483 try to acquire a lock 1 with request ID 1
+test2: client 5 acquire a release a
+test2: client 3 acquire a release a
+client: client 127.0.0.1:26362 try to acquire a lock 1 with request ID 1
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 1
+client: client 127.0.0.1:1654 deal with a revoke RPC with lid 1
+test2: client 0 release
+test2: client 0 release done
+client: client 127.0.0.1:1654 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:5629 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1654 give back the lock with lid 1 finish
+client: client 127.0.0.1:5629 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:5629 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:5629 WAITSUCCESS a lock 1 with request ID 1
+test2: client 1 acquire done
+test2: client 1 release
+test2: client 1 release done
+client: client 127.0.0.1:5629 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:15487 deal with a grant RPC with lid 1
+client: client 127.0.0.1:5629 give back the lock with lid 1 finish
+client: client 127.0.0.1:15487 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:15487 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:15487 WAITSUCCESS a lock 1 with request ID 1
+test2: client 2 acquire done
+test2: client 2 release
+test2: client 2 release done
+client: client 127.0.0.1:15487 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:13483 deal with a grant RPC with lid 1
+client: client 127.0.0.1:15487 give back the lock with lid 1 finish
+client: client 127.0.0.1:13483 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:13483 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:13483 WAITSUCCESS a lock 1 with request ID 1
+test2: client 4 acquire done
+test2: client 4 release
+test2: client 4 release done
+client: client 127.0.0.1:13483 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26362 deal with a grant RPC with lid 1
+client: client 127.0.0.1:13483 give back the lock with lid 1 finish
+client: client 127.0.0.1:26362 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26362 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:26362 WAITSUCCESS a lock 1 with request ID 1
+test2: client 5 acquire done
+test2: client 5 release
+test2: client 5 release done
+client: client 127.0.0.1:26362 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:5816 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26362 give back the lock with lid 1 finish
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:5816 WAITSUCCESS a lock 1 with request ID 1
+test2: client 3 acquire done
+test2: client 3 release
+test2: client 3 release done
+test 3
+test3: client 0 acquire a release a concurrent
+client: client 127.0.0.1:1654 try to acquire a lock 1 with request ID 3
+test3: client 3 acquire a release a concurrent
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 2 acquire a release a concurrent
+test3: client 5 acquire a release a concurrent
+test3: client 4 acquire a release a concurrent
+client: client 127.0.0.1:13483 try to acquire a lock 1 with request ID 3
+client: client 127.0.0.1:13483 acquired a lock 1 with request ID 3 which is RELEASING and need to WAIT
+test3: client 1 acquire a release a concurrent
+client: client 127.0.0.1:5629 try to acquire a lock 1 with request ID 3
+client: client 127.0.0.1:5629 acquired a lock 1 with request ID 3 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1654 acquired a lock 1 with request ID 3 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26362 try to acquire a lock 1 with request ID 3
+client: client 127.0.0.1:26362 acquired a lock 1 with request ID 3 which is RELEASING and need to WAIT
+client: client 127.0.0.1:15487 try to acquire a lock 1 with request ID 3
+client: client 127.0.0.1:15487 acquired a lock 1 with request ID 3 which is RELEASING and need to WAIT
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock
+client: client 127.0.0.1:5816 try to acquire a lock 1 with request ID 2
+client: client 127.0.0.1:5816 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 got lock

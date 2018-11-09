@@ -1,0 +1,1484 @@
+cache lock client
+acquire a release a acquire a release a
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 1 directly
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+acquire a acquire b release b release a
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 2 with request ID 1 directly
+test2: client 0 acquire a release a
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test2: client 0 acquire done
+test2: client 1 acquire a release a
+client: client 127.0.0.1:25824 try to acquire a lock
+test2: client 3 acquire a release a
+test2: client 2 acquire a release a
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:19687 try to acquire a lock
+test2: client 4 acquire a release a
+client: client 127.0.0.1:26571 try to acquire a lock
+test2: client 5 acquire a release a
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+test2: client 0 release
+test2: client 0 release done
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 1
+test2: client 1 acquire done
+test2: client 1 release
+test2: client 1 release done
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 1
+test2: client 2 acquire done
+test2: client 2 release
+test2: client 2 release done
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 1
+test2: client 3 acquire done
+test2: client 3 release
+test2: client 3 release done
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 1
+test2: client 4 acquire done
+test2: client 4 release
+test2: client 4 release done
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:21787 deal with a grant RPC with lid 1
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 1 failed and need to WAIT
+client: client 127.0.0.1:21787 WAITSUCCESS a lock 1 with request ID 1
+test2: client 5 acquire done
+test2: client 5 release
+test2: client 5 release done
+test 3
+test3: client 0 acquire a release a concurrent
+test3: client 0 begin acquire j 0
+test3: client 1 acquire a release a concurrent
+test3: client 1 begin acquire j 0
+client: client 127.0.0.1:25824 try to acquire a lock
+test3: client 4 acquire a release a concurrent
+test3: client 4 begin acquire j 0
+client: client 127.0.0.1:26571 try to acquire a lock
+test3: client 3 acquire a release a concurrent
+test3: client 5 acquire a release a concurrent
+test3: client 5 begin acquire j 0
+test3: client 2 acquire a release a concurrent
+test3: client 2 begin acquire j 0
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 3 begin acquire j 0
+client: client 127.0.0.1:1554 try to acquire a lock
+test3: client 5 finish acquire
+test3: client 5 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 1
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 2
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 3
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 4
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 5
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 6
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 7
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 8
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+test3: client 5 begin acquire j 9
+client: client 127.0.0.1:21787 try to acquire a lock
+client: client 127.0.0.1:21787 acquired a lock 1 with request ID 2 which is FREE and can be acquired directly
+test3: client 5 finish acquire
+test3: client 5 got lock
+test3: client 5 check release finish
+test5: client 5 check release finish1
+client: client 127.0.0.1:21787 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:21787 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 3 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 3
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 1
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 4 which is FREE and can be acquired directly
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 2
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 5 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 5 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 3 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 3
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 1
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 5 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 5 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 3 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 3
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 1
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 5 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 5 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 3 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 3
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 1
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 5 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 5 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 3 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 3
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 1
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 5 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 5 AWAKE
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 5 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 5
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 3
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 7 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 7 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 5 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 5
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 2
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 7 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 7 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 5 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 5
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 2
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 7 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 7 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 5 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 5
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 2
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 7 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 7 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 5 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 5
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 2
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 7 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 7 AWAKE
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 7 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 7
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 4
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 9 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 9 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 7 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 7
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 3
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 9 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 9 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 7 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 7
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 3
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 9 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 9 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 7 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 7
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 3
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 9 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 9 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 7 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 7
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 3
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 9 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 9 AWAKE
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 9 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 9
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 5
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 11 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 11 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 9 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 9
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 4
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 11 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 11 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 9 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 9
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 4
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 11 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 11 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 9 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 9
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 4
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 11 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 11 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 9 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 9
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 4
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 11 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 11 AWAKE
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 11 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 11
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 6
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 13 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 13 AWAKE
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 11 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 11
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 5
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 13 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 13 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 11 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 11
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 5
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 13 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 13 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 11 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 11
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 5
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 13 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 13 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 11 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 11
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 5
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 13 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 13 AWAKE
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 13 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 13
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 7
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 15 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 15 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 13 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 13
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 6
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 15 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 15 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 13 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 13
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 6
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 15 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 15 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 13 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 13
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 6
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 15 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 15 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 13 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 13
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 6
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 15 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 15 AWAKE
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 15 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 15
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 8
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 17 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 17 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 15 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 15
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 7
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 17 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 17 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 15 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 15
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 7
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 17 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 17 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 15 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 15
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 7
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 17 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 17 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 15 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 15
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+test3: client 0 begin acquire j 7
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 17 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 17 AWAKE
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 17 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 17
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+test3: client 1 begin acquire j 9
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 19 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 19 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 17 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 17
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 8
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 19 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 19 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 17 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 17
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 8
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 19 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 19 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 17 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 17
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 8
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 19 which is RELEASING and need to WAIT
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 19 AWAKE
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 17 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 17
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 8
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 19 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 19 AWAKE
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 19 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 19
+test3: client 1 finish acquire
+test3: client 1 got lock
+test3: client 1 check release finish
+test5: client 1 check release finish1
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 19 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 19
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+test3: client 4 begin acquire j 9
+client: client 127.0.0.1:26571 try to acquire a lock
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 21 which is RELEASING and need to WAIT
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 21 AWAKE
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 19 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 19
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+test3: client 2 begin acquire j 9
+client: client 127.0.0.1:19687 try to acquire a lock
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 21 which is RELEASING and need to WAIT
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 21 AWAKE
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 19 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 19
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+test3: client 3 begin acquire j 9
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 try to acquire a lock
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 21 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 21 AWAKE
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 19 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 19
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test3: client 0 begin acquire j 9
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 21 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:26571 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 21 AWAKE
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:26571 acquired a lock 1 with request ID 21 failed and need to WAIT
+client: client 127.0.0.1:26571 WAITSUCCESS a lock 1 with request ID 21
+test3: client 4 finish acquire
+test3: client 4 got lock
+test3: client 4 check release finish
+test5: client 4 check release finish1
+client: client 127.0.0.1:26571 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:19687 deal with a grant RPC with lid 1
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:19687 acquired a lock 1 with request ID 21 failed and need to WAIT
+client: client 127.0.0.1:19687 WAITSUCCESS a lock 1 with request ID 21
+test3: client 2 finish acquire
+test3: client 2 got lock
+test3: client 2 check release finish
+test5: client 2 check release finish1
+client: client 127.0.0.1:19687 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:1554 deal with a grant RPC with lid 1
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:1554 acquired a lock 1 with request ID 21 failed and need to WAIT
+client: client 127.0.0.1:1554 WAITSUCCESS a lock 1 with request ID 21
+test3: client 3 finish acquire
+test3: client 3 got lock
+test3: client 3 check release finish
+test5: client 3 check release finish1
+client: client 127.0.0.1:1554 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 21 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 21
+test3: client 0 finish acquire
+test3: client 0 got lock
+test3: client 0 check release finish
+test5: client 0 check release finish1
+test 4
+test4: thread 0 acquire a release a concurrent; same clnt
+test4: thread 1 acquire a release a concurrent; same clnt
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test4: thread 0 on client 0 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test4: thread 1 on client 0 got lock
+test 5
+test5: client 0 acquire a release a concurrent; same and diff clnt
+test5: client 0 begin acquire j 0
+test5: client 1 acquire a release a concurrent; same and diff clnt
+test5: client 1 begin acquire j 0
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 2 acquire a release a concurrent; same and diff clnt
+test5: client 2 begin acquire j 0
+test5: client 0 finish acquire
+test5: client 0 got lock
+test5: client 3 acquire a release a concurrent; same and diff clnt
+test5: client 3 begin acquire j 0
+test5: client 4 acquire a release a concurrent; same and diff clnt
+test5: client 4 begin acquire j 0
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 5 acquire a release a concurrent; same and diff clnt
+test5: client 5 begin acquire j 0
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 1
+client: client 127.0.0.1:9281 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is RELEASING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 23 which is RELEASING and need to WAIT
+client: client 127.0.0.1:25824 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 AWAKE
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 AWAKE
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 AWAKE
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 AWAKE
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 21 failed and need to WAIT
+client: client 127.0.0.1:25824 WAITSUCCESS a lock 1 with request ID 21
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 1
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 2
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 3
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 4
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 5
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 6
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 7
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 8
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+test5: client 5 begin acquire j 9
+client: client 127.0.0.1:25824 try to acquire a lock
+client: client 127.0.0.1:25824 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 5 finish acquire
+test5: client 5 got lock
+test5: client 5 check release finish
+test5: client 5 check release finish1
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 23 AWAKE
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 23 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:25824 deal with a revoke RPC with lid 1 1111111111
+client: client 127.0.0.1:9281 deal with a grant RPC with lid 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 failed and need to WAIT
+client: client 127.0.0.1:9281 WAITSUCCESS a lock 1 with request ID 22
+test5: client 2 finish acquire
+test5: client 2 got lock
+test5: client 2 check release finish
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 23 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 2
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 23 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 2
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 23 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 2
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 22 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 2
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 3
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 3
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 3
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 2
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 3
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 4
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 4
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 4
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 3
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 4
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 5
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 5
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 5
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 4
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 5
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 6
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 6
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 6
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 5
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 6
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 7
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 7
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 7
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 6
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 7
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 8
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 8
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 8
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 7
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 8
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+test5: client 1 begin acquire j 9
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+test5: client 0 begin acquire j 9
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+test5: client 3 begin acquire j 9
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 8
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+test5: client 2 begin acquire j 9
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 1 finish acquire
+test5: client 1 got lock
+test5: client 1 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 1 check release finish1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 0 finish acquire
+test5: client 0 got lock
+test5: client 0 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 0 check release finish1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 3 finish acquire
+test5: client 3 got lock
+test5: client 3 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 3 check release finish1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 4 check release finish1
+test5: client 4 begin acquire j 9
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 2 finish acquire
+test5: client 2 got lock
+test5: client 2 check release finish
+client: client 127.0.0.1:9281 try to acquire a lock
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is LOCKED/ACQUIRING and need to WAIT
+test5: client 2 check release finish1
+client: client 127.0.0.1:9281 acquired a lock 1 with request ID 24 which is FREE and can be acquired directly
+test5: client 4 finish acquire
+test5: client 4 got lock
+test5: client 4 check release finish
+test5: client 4 check release finish1
+./lock_tester: passed all tests successfully

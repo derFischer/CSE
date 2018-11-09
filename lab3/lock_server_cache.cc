@@ -17,31 +17,31 @@ lock_server_cache::lock_server_cache()
 int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int reqId,
                                int &r)
 {
-  printf("server: client %s try to acquire a lock %d with request ID %d\n", id.c_str(), lid, reqId);
+  //printf("server: client %s try to acquire a lock %d with request ID %d\n", id.c_str(), lid, reqId);
   lock_protocol::status ret = lock_protocol::OK;
   r = lock_protocol::OK;
   pthread_mutex_lock(&sm);
   //if it is a stale req
-  if (reqs[id].reqId >= reqId)
+  if (reqs[id][lid].reqId >= reqId)
   {
-    printf("server: client %s try to acquire a lock %d with request ID %d STALE\n", id.c_str(), lid, reqId);
+    //printf("server: client %s try to acquire a lock %d with request ID %d STALE\n", id.c_str(), lid, reqId);
     ret = r = lock_protocol::EXPIRED;
     pthread_mutex_unlock(&sm);
     return ret;
   }
 
   //wait for the previous req to be done
-  while (reqs[id].reqId < reqId - 1)
+  while (reqs[id][lid].reqId < reqId - 1)
   {
-    pthread_cond_wait(&reqs[id].clientReq, &sm);
+    pthread_cond_wait(&reqs[id][lid].clientReq, &sm);
   }
 
   //the reqId should be updated first in case of duplicated request handle
-  reqs[id].reqId = reqId;
+  reqs[id][lid].reqId = reqId;
   //deal with the req
   if (owners.find(lid) == owners.end() || owners[lid].acquired == false)
   {
-    printf("server: client %s try to acquire a lock %d with request ID %d SUCCESS\n", id.c_str(), lid, reqId);
+    //printf("server: client %s try to acquire a lock %d with request ID %d SUCCESS\n", id.c_str(), lid, reqId);
     lockInfo tmp;
     tmp.owner = id;
     tmp.giveTo = id;
@@ -51,14 +51,24 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
   }
   else
   {
+    std::string owner;
+    if (owners[lid].waitingQ.empty())
+    {
+      owner = owners[lid].owner;
+    }
+    else
+    {
+      owner = owners[lid].waitingQ.back();
+    }
+    owners[lid].waitingQ.push(id);
+    //printf("server: client %s try to acquire a lock %d with request ID %d WAIT previous owner: %s\n", id.c_str(), lid, reqId, owner.c_str());
     //wait for the grant process to be done
-    while (owners[lid].owner != owners[lid].giveTo)
+    while (owners[lid].owner != owners[lid].giveTo || owners[lid].owner != owner)
     {
       pthread_cond_wait(&owners[lid].grantSuccess, &sm);
     }
 
     //revoke the current owner
-    std::string owner = owners[lid].owner;
     handle h(owner);
     rpcc *cl = h.safebind();
     if (cl)
@@ -72,11 +82,11 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
     {
       printf("bind failed\n");
     }
-    printf("server: revoke client %s lockid: %d\n", owner.c_str(), lid);
-    printf("server: client %s try to acquire a lock %d with request ID %d WAIT\n", id.c_str(), lid, reqId);
-    owners[lid].waitingQ.push(id);
+    //printf("server: revoke client %s lockid: %d\n", owner.c_str(), lid);
+    //printf("server: client %s try to acquire a lock %d with request ID %d WAIT\n", id.c_str(), lid, reqId);
     ret = r = lock_protocol::WAIT;
   }
+  pthread_cond_broadcast(&reqs[id][lid].clientReq);
   pthread_mutex_unlock(&sm);
   return ret;
 }
@@ -84,11 +94,11 @@ int lock_server_cache::acquire(lock_protocol::lockid_t lid, std::string id, int 
 int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int reqId,
                                int &r)
 {
-  printf("server: client %s try to release a lock %d with request ID %d WAIT\n", id.c_str(), lid, reqId);
+  //printf("server: client %s try to release a lock %d with request ID %d WAIT\n", id.c_str(), lid, reqId);
   lock_protocol::status ret = lock_protocol::OK;
   pthread_mutex_lock(&sm);
   //if it is a stale req
-  if (reqs[id].reqId >= reqId)
+  if (reqs[id][lid].reqId >= reqId)
   {
     ret = r = lock_protocol::EXPIRED;
     pthread_mutex_unlock(&sm);
@@ -96,13 +106,13 @@ int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int 
   }
 
   //wait for the previous req to be done
-  while (reqs[id].reqId < reqId - 1)
+  while (reqs[id][lid].reqId < reqId - 1)
   {
-    pthread_cond_wait(&reqs[id].clientReq, &sm);
+    pthread_cond_wait(&reqs[id][lid].clientReq, &sm);
   }
 
   //deal with the req
-  reqs[id].reqId = reqId;
+  reqs[id][lid].reqId = reqId;
 
   //if the waiting queue is empty, mark the lock as free
   if (owners[lid].waitingQ.empty())
@@ -131,9 +141,12 @@ int lock_server_cache::release(lock_protocol::lockid_t lid, std::string id, int 
     }
     if (ret == rlock_protocol::OK)
     {
+      pthread_cond_broadcast(&owners[lid].grantSuccess);
       owners[lid].owner = next;
+      //printf("server: client %s try to release a lock %d with request ID %d SUCCESS and give to %s\n", id.c_str(), lid, reqId, next.c_str());
     }
   }
+  pthread_cond_broadcast(&reqs[id][lid].clientReq);
   pthread_mutex_unlock(&sm);
   return ret;
 }
