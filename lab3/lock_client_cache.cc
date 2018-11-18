@@ -5,6 +5,7 @@
 #include "rpc.h"
 #include <sstream>
 #include <iostream>
+#include <unistd.h>
 #include <stdio.h>
 #include "tprintf.h"
 
@@ -47,7 +48,6 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     tmp.freeCv = PTHREAD_COND_INITIALIZER;
     locks[lid] = tmp;
   }
-  int thisReqId = locks[lid].maxReqId;
   //printf("client: client %s try to acquire a lock\n", id.c_str(), lid, thisReqId);
   while (true)
   {
@@ -175,6 +175,7 @@ rlock_protocol::status
 lock_client_cache::revoke_handler(lock_protocol::lockid_t lid,
                                   int &)
 {
+  usleep(5000);
   //printf("client: client %s deal with a revoke RPC with lid %d\n", id.c_str(), lid);
   int ret = rlock_protocol::OK;
   pthread_mutex_lock(&cm);
