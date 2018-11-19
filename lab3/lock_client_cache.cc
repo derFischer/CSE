@@ -175,7 +175,7 @@ rlock_protocol::status
 lock_client_cache::revoke_handler(lock_protocol::lockid_t lid,
                                   int &)
 {
-  usleep(5000);
+  usleep(50000);
   //printf("client: client %s deal with a revoke RPC with lid %d\n", id.c_str(), lid);
   int ret = rlock_protocol::OK;
   pthread_mutex_lock(&cm);
