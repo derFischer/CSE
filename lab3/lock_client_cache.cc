@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "tprintf.h"
+#include <unistd.h>
 
 int lock_client_cache::last_port = 0;
 
@@ -15,12 +16,10 @@ lock_client_cache::lock_client_cache(std::string xdst,
                                      class lock_release_user *_lu)
     : lock_client(xdst), lu(_lu)
 {
-  pthread_mutex_init(&cm, NULL);
-  srand(time(NULL) ^ last_port);
-  rlock_port = ((rand() % 32000) | (0x1 << 10));
-  const char *hname;
-  // VERIFY(gethostname(hname, 100) == 0);
-  hname = "127.0.0.1";
+  srand(time(NULL)^last_port);
+  rlock_port = ((rand()%32000) | (0x1 << 10));
+  char hname[100];
+  VERIFY(gethostname(hname, sizeof(hname)) == 0);
   std::ostringstream host;
   host << hname << ":" << rlock_port;
   id = host.str();
