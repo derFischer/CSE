@@ -10,7 +10,7 @@ check_hdfs_param_on() {
   result=$($SSH $1 $HADOOP/bin/hdfs getconf -confKey $2 2>/dev/null)
   if [ "x$result" != "x$3" ]; then
     echo "failed"
-    echo "$2 on $1 is incorrect"
+    echo "$2 on $1 is incorrect $result iiiiiiiii"
     exit 1
   fi
 }
