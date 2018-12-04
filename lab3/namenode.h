@@ -53,6 +53,7 @@ private:
   std::map<yfs_client::inum, uint32_t> pendingWrite;
 
   /* Add your member variables/functions here */
+  std::map<yfs_client::inum, 
 private:
   void GetFileInfo();
   bool RecursiveLookup(const std::string &path, yfs_client::inum &ino, yfs_client::inum &last);

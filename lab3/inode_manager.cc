@@ -183,6 +183,10 @@ inode_manager::Alloc_inode(uint32_t type)
       ino->atime = timeNow;
       ino->mtime = timeNow;
       ino->ctime = timeNow;
+      for(index = 0; index <= NDIRECT; ++ index)
+      {
+        ino->blocks[index] = 0;
+      }
       bm->write_block(IBLOCK(i,BLOCK_NUM), tmp);
       return i;
     }
@@ -413,6 +417,8 @@ inode_manager::write_file(uint32_t inum, const char *buf, int size)
       if(indirectIndex == 0)
       {
         blockid_t block = bm->alloc_block();
+        char emptyBuf = char[BLOCK_SIZE];
+        memset(blocks[block], 0, BLOCKS_SIZE);
         t->blocks[NDIRECT] = block;
       }
       bm->read_block(t->blocks[NDIRECT], tmp);
@@ -487,7 +493,7 @@ inode_manager::remove_file(uint32_t inum)
   bm->read_block(IBLOCK(inum, BLOCK_NUM), tmp);
   struct inode* t = (struct inode*)(tmp) + (inum - 1) % IPB;
   vector<blockid_t> results = getBlockOfInode(t, bm);
-  for(unsigned int i = 0;i<results.size();i++)
+  for(unsigned int i = 0;i < results.size();i++)
   {
     bm->free_block(results[i]);
   }
@@ -499,13 +505,56 @@ inode_manager::remove_file(uint32_t inum)
   return;
 }
 
+
+std::list<blockid_t> inodeBlocks(struct inode *inode, block_manager *bm)
+{
+  int index = 0;
+  std::list<blockid_t> result;
+  while(inode->blocks[index] != 0 && index < NDIRECT)
+  {
+    result.push_back(inode->blocks[index]);
+    index++;
+  }
+  if (index == NDIRECT && fileSize > 0)
+  {
+    char indirectBlock[BLOCK_SIZE];
+    bm->read_block(inode->blocks[index], indirectBlock);
+    blockid_t* indirectBlockList = (blockid_t*)(indirectBlock);
+    int indirectIndex = 0;
+    while(indirectBlockList[indirectIndex] != 0 && (unsigned)indirectIndex < NINDIRECT)
+    {
+      result.push_back(indirectBlockList[indirectIndex]);
+      indirectIndex++;
+    } 
+  }
+  return result;
+}
+
 void
 inode_manager::append_block(uint32_t inum, blockid_t &bid)
 {
   /*
    * your code goes here.
    */
-
+  blockid_t newBlock = alloc_block();
+  bid = newBlock;
+  struct inode* t = get_inode(inum);
+  std::list<blockid_t> blocks = inodeBlocks(inum, bm);
+  int size = blocks.size();
+  if(size < NDIRECT)
+  {
+    t->blocks[size] = bid;
+    put_inode(inum, t);
+  }
+  else
+  {
+    char *indirect = char[BLOCK_SIZE];
+    bm->read_block(t->blocks[NDIRECT], indirect);
+    blockid_t *blocks = (blockid_t *)indirect;
+    blocks[size - NDIRECT] = bid;
+    bm->write_block(blocks[NDIRECT], indirect);
+  }
+  return;
 }
 
 void
@@ -514,7 +563,15 @@ inode_manager::get_block_ids(uint32_t inum, std::list<blockid_t> &block_ids)
   /*
    * your code goes here.
    */
-
+  std::list<blockid_t> tmp = inodeBlocks(inum, bm);
+  int size = tmp.size();
+  for(int i = 0; i < size; ++i)
+  {
+    block_ids.push_back(tmp.front());
+    tmp.pop_front();
+  }
+  block_ids.push_back(tmp->size);
+  return;
 }
 
 void
@@ -523,7 +580,8 @@ inode_manager::read_block(blockid_t id, char buf[BLOCK_SIZE])
   /*
    * your code goes here.
    */
-
+  bm->read_block(id, buf);
+  return;
 }
 
 void
@@ -532,7 +590,7 @@ inode_manager::write_block(blockid_t id, const char buf[BLOCK_SIZE])
   /*
    * your code goes here.
    */
-
+  bm->write_block(id, buf);
 }
 
 void
@@ -541,5 +599,9 @@ inode_manager::complete(uint32_t inum, uint32_t size)
   /*
    * your code goes here.
    */
-
+  struct inode *t = get_inode(inum);
+  t->ctime = (unsigned int)time(NULL);
+  t->mtime = (unsigned int)time(NULL);
+  t->size = size;
+  return;
 }
