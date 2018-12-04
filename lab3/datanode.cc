@@ -42,11 +42,28 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
 
 bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &buf) {
   /* Your lab4 part 2 code */
-  return false;
+  if(ec->read_block(bid, buf) != extent_protocol::OK)
+  {
+    throw HdfsException("read block failed");
+    return false;
+  }
+  if(offset + len > BLOCK_SIZE)
+  {
+    buf.resize(offset + len, '\0');
+  }
+  buf = buf.substr(offset, len);
+  return true;
 }
 
 bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf) {
   /* Your lab4 part 2 code */
+  string raw;
+  if(ec->read_block(bid, &raw) != extent_protocol::OK)
+  {
+    throw HdfsException("read block failed");
+    return false;
+  }
+
   return false;
 }
 

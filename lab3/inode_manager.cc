@@ -183,7 +183,7 @@ inode_manager::Alloc_inode(uint32_t type)
       ino->atime = timeNow;
       ino->mtime = timeNow;
       ino->ctime = timeNow;
-      for(index = 0; index <= NDIRECT; ++ index)
+      for(index = 0; index <= NDIRECT; ++index)
       {
         ino->blocks[index] = 0;
       }
@@ -417,7 +417,7 @@ inode_manager::write_file(uint32_t inum, const char *buf, int size)
       if(indirectIndex == 0)
       {
         blockid_t block = bm->alloc_block();
-        char emptyBuf = char[BLOCK_SIZE];
+        char emptyBuf[BLOCK_SIZE];
         memset(blocks[block], 0, BLOCKS_SIZE);
         t->blocks[NDIRECT] = block;
       }
@@ -515,7 +515,7 @@ std::list<blockid_t> inodeBlocks(struct inode *inode, block_manager *bm)
     result.push_back(inode->blocks[index]);
     index++;
   }
-  if (index == NDIRECT && fileSize > 0)
+  if (index == NDIRECT && inode->blocks[NDIRECT] != 0)
   {
     char indirectBlock[BLOCK_SIZE];
     bm->read_block(inode->blocks[index], indirectBlock);
@@ -536,10 +536,10 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
   /*
    * your code goes here.
    */
-  blockid_t newBlock = alloc_block();
+  blockid_t newBlock = bm->alloc_block();
   bid = newBlock;
   struct inode* t = get_inode(inum);
-  std::list<blockid_t> blocks = inodeBlocks(inum, bm);
+  std::list<blockid_t> blocks = inodeBlocks(t, bm);
   int size = blocks.size();
   if(size < NDIRECT)
   {
@@ -548,7 +548,7 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
   }
   else
   {
-    char *indirect = char[BLOCK_SIZE];
+    char indirect[BLOCK_SIZE];
     bm->read_block(t->blocks[NDIRECT], indirect);
     blockid_t *blocks = (blockid_t *)indirect;
     blocks[size - NDIRECT] = bid;
@@ -563,14 +563,15 @@ inode_manager::get_block_ids(uint32_t inum, std::list<blockid_t> &block_ids)
   /*
    * your code goes here.
    */
-  std::list<blockid_t> tmp = inodeBlocks(inum, bm);
+  struct inode* t = get_inode(inum);
+  std::list<blockid_t> tmp = inodeBlocks(t, bm);
   int size = tmp.size();
   for(int i = 0; i < size; ++i)
   {
     block_ids.push_back(tmp.front());
     tmp.pop_front();
   }
-  block_ids.push_back(tmp->size);
+  block_ids.push_back(t->size);
   return;
 }
 
