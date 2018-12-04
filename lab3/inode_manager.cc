@@ -183,7 +183,7 @@ inode_manager::Alloc_inode(uint32_t type)
       ino->atime = timeNow;
       ino->mtime = timeNow;
       ino->ctime = timeNow;
-      for(index = 0; index <= NDIRECT; ++index)
+      for(int index = 0; index <= NDIRECT; ++index)
       {
         ino->blocks[index] = 0;
       }
@@ -418,7 +418,7 @@ inode_manager::write_file(uint32_t inum, const char *buf, int size)
       {
         blockid_t block = bm->alloc_block();
         char emptyBuf[BLOCK_SIZE];
-        memset(blocks[block], 0, BLOCKS_SIZE);
+        memset(blocks[block], 0, BLOCK_SIZE);
         t->blocks[NDIRECT] = block;
       }
       bm->read_block(t->blocks[NDIRECT], tmp);
