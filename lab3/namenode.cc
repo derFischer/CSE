@@ -51,12 +51,19 @@ bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
 
 NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
   blockid_t bid;
+  extent_protocol::attr a;
+  if(ec->getattr(ino, a) != extent_protocol::OK)
+  {
+    throw HdfsException("get attr failed");
+    return LocatedBlock(0, 0, 0, master_datanode);
+  }
   if(ec->append_block(ino, bid) != extent_protocol::OK)
   {
     throw HdfsException("append block failed");
     return LocatedBlock(0, 0, 0, master_datanode);
   }
-  return LocatedBlock(bid, 0, BLOCK_SIZE, master_datanode);
+  int offset = ((a/BLOCKSIZE) + (a % BLOCKSIZE != 0)) * BLOCK_SIZE;
+  return LocatedBlock(bid, offset, BLOCK_SIZE, master_datanode);
 }
 
 bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client::inum dst_dir_ino, string dst_name) {
