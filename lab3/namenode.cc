@@ -17,10 +17,10 @@ void NameNode::init(const string &extent_dst, const string &lock_dst) {
 
 list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
   list<blockid_t> block_ids;
-  if(ec->get_block_ids(ino, &block_ids) != extent_protocol::OK)
+  if(ec->get_block_ids(ino, block_ids) != extent_protocol::OK)
   {
     throw HdfsException("get block ids failed");
-    return NULL;
+    return list<NameNode::LocatedBlock>();
   }
   int fileSize = block_ids.back();
   block_ids.pop_back();
@@ -51,10 +51,10 @@ bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
 
 NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
   blockid_t bid;
-  if(ec->append_block(ino, &bid) != extent_protocol::OK)
+  if(ec->append_block(ino, bid) != extent_protocol::OK)
   {
     throw HdfsException("append block failed");
-    return NULL;
+    return LocatedBlock(0, 0, 0, master_datanode);
   }
   return LocatedBlock(bid, 0, BLOCK_SIZE, master_datanode);
 }
@@ -63,7 +63,7 @@ bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client:
   lc->acquire(src_dir_ino);
   bool found = false;
   yfs_client::inum inodeNum;
-  if(yfs->Lookup(src_dir_ino, src_name, found, inodeNum) != yfs_client::OK)
+  if(yfs->Lookup(src_dir_ino, src_name.c_str(), found, inodeNum) != yfs_client::OK)
   {
     throw HdfsException("lookup file failed");
     lc->release(src_dir_ino);
@@ -98,7 +98,7 @@ bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client:
 }
 
 bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
-  if(yfs->mkdir(parent, name, mode, ino_out) != yfs_client::OK)
+  if(yfs->mkdir(parent, name.c_str(), mode, ino_out) != yfs_client::OK)
   {
     throw HdfsException("mkdir failed");
     return false;
@@ -107,7 +107,7 @@ bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_clie
 }
 
 bool NameNode::Create(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
-  if(yfs->create(parent, name, mode, ino_out) != yfs_client::OK)
+  if(yfs->create(parent, name.c_str(), mode, ino_out) != yfs_client::OK)
   {
     throw HdfsException("create a file failed");
     return false;
@@ -152,7 +152,7 @@ bool NameNode::Readdir(yfs_client::inum ino, std::list<yfs_client::dirent> &dir)
 }
 
 bool NameNode::Unlink(yfs_client::inum parent, string name, yfs_client::inum ino) {
-  if(yfs->Unlink(parent, name) != yfs_client::OK)
+  if(yfs->Unlink(parent, name.c_str()) != yfs_client::OK)
   {
     throw HdfsException("unlink failed");
     return false;

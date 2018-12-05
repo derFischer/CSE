@@ -11,6 +11,7 @@
 
 class extent_client;
 
+
 class DataNode {
 private:
   extent_client *ec;

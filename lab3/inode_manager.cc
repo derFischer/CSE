@@ -418,7 +418,8 @@ inode_manager::write_file(uint32_t inum, const char *buf, int size)
       {
         blockid_t block = bm->alloc_block();
         char emptyBuf[BLOCK_SIZE];
-        memset(blocks[block], 0, BLOCK_SIZE);
+        memset(emptyBuf, 0, BLOCK_SIZE);
+        bm->write_block(block, emptyBuf);
         t->blocks[NDIRECT] = block;
       }
       bm->read_block(t->blocks[NDIRECT], tmp);
@@ -544,6 +545,17 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
   if(size < NDIRECT)
   {
     t->blocks[size] = bid;
+    put_inode(inum, t);
+  }
+  else if(size == NDIRECT)
+  {
+    blockid_t indBlock = bm->alloc_block();
+    char tmp[BLOCK_SIZE];
+    memset(tmp, 0, BLOCK_SIZE);
+    blockid_t *blockids = (blockid_t *)tmp;
+    blockids[0] = bid;
+    bm->write_block(indBlock, tmp);
+    t->blocks[NDIRECT] = indBlock;
     put_inode(inum, t);
   }
   else

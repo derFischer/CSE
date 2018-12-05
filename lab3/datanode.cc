@@ -44,7 +44,7 @@ bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &b
   /* Your lab4 part 2 code */
   if(ec->read_block(bid, buf) != extent_protocol::OK)
   {
-    throw HdfsException("read block failed");
+    printf("read block failed\n");
     return false;
   }
   if(offset + len > BLOCK_SIZE)
@@ -58,12 +58,20 @@ bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &b
 bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf) {
   /* Your lab4 part 2 code */
   string raw;
-  if(ec->read_block(bid, &raw) != extent_protocol::OK)
+  if(ec->read_block(bid, raw) != extent_protocol::OK)
   {
-    throw HdfsException("read block failed");
+    printf("read block failed\n");
     return false;
   }
-
-  return false;
+  string content = buf;
+  content.resize(len);
+  raw.replace(offset, len, content, 0, len);
+  raw.resize(BLOCK_SIZE);
+  if(ec->write_block(bid, raw.c_str()))
+  {
+    printf("write block failed\n");
+    return false;
+  }
+  return true;
 }
 
