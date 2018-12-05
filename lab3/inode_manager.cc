@@ -158,6 +158,8 @@ inode_manager::inode_manager()
 uint32_t
 inode_manager::alloc_inode(uint32_t type)
 {
+  printf("enter im alloc inode\n");
+  fflush(stdout);
   pthread_mutex_lock(&inodemapLock); 
   uint32_t inum = Alloc_inode(type);
   pthread_mutex_unlock(&inodemapLock); 
@@ -198,6 +200,8 @@ inode_manager::Alloc_inode(uint32_t type)
 void
 inode_manager::free_inode(uint32_t inum)
 {
+  printf("enter im free inode\n");
+  fflush(stdout);
   pthread_mutex_lock(&inodemapLock); 
   Free_inode(inum);
   pthread_mutex_unlock(&inodemapLock);
@@ -323,6 +327,8 @@ vector<blockid_t> getBlockOfInode(struct inode *inode, block_manager *bm)
 void
 inode_manager::read_file(uint32_t inum, char **buf_out, int *size)
 {
+  printf("im read file\n");
+  fflush(stdout);
   /*
    * your code goes here.
    * note: read blocks related to inode number inum,
@@ -357,6 +363,8 @@ inode_manager::read_file(uint32_t inum, char **buf_out, int *size)
 void
 inode_manager::write_file(uint32_t inum, const char *buf, int size)
 {
+  printf("enter im write file\n");
+  fflush(stdout);
   /*
    * your code goes here.
    * note: write buf to blocks of inode inum.
@@ -459,6 +467,8 @@ inode_manager::write_file(uint32_t inum, const char *buf, int size)
 void
 inode_manager::getattr(uint32_t inum, extent_protocol::attr &a)
 {
+  printf("enter im getattr\n");
+  fflush(stdout);
   /*
    * your code goes here.
    * note: get the attributes of inode inum.
@@ -486,6 +496,8 @@ inode_manager::getattr(uint32_t inum, extent_protocol::attr &a)
 void
 inode_manager::remove_file(uint32_t inum)
 {
+  printf("enter im remove file\n");
+  fflush(stdout);
   /*
    * your code goes here
    * note: you need to consider about both the data block and inode of the file
@@ -534,6 +546,8 @@ std::list<blockid_t> inodeBlocks(struct inode *inode, block_manager *bm)
 void
 inode_manager::append_block(uint32_t inum, blockid_t &bid)
 {
+  printf("enter im append block\n");
+  fflush(stdout);
   /*
    * your code goes here.
    */
@@ -572,6 +586,8 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
 void
 inode_manager::get_block_ids(uint32_t inum, std::list<blockid_t> &block_ids)
 {
+  printf("enter im get block ids\n");
+  fflush(stdout);
   /*
    * your code goes here.
    */
@@ -590,6 +606,8 @@ inode_manager::get_block_ids(uint32_t inum, std::list<blockid_t> &block_ids)
 void
 inode_manager::read_block(blockid_t id, char buf[BLOCK_SIZE])
 {
+  printf("enter im read block\n");
+  fflush(stdout);
   /*
    * your code goes here.
    */
@@ -600,6 +618,8 @@ inode_manager::read_block(blockid_t id, char buf[BLOCK_SIZE])
 void
 inode_manager::write_block(blockid_t id, const char buf[BLOCK_SIZE])
 {
+  printf("enter im write block\n");
+  fflush(stdout);
   /*
    * your code goes here.
    */
@@ -609,6 +629,8 @@ inode_manager::write_block(blockid_t id, const char buf[BLOCK_SIZE])
 void
 inode_manager::complete(uint32_t inum, uint32_t size)
 {
+  printf("enter im complete\n");
+  fflush(stdout);
   /*
    * your code goes here.
    */

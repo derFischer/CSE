@@ -16,6 +16,8 @@ void NameNode::init(const string &extent_dst, const string &lock_dst) {
 }
 
 list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
+  printf("enter name node locatedblock\n");
+  fflush(stdout);
   list<blockid_t> block_ids;
   if(ec->get_block_ids(ino, block_ids) != extent_protocol::OK)
   {
@@ -39,6 +41,8 @@ list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino) {
 }
 
 bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
+  printf("enter name node complete\n");
+  fflush(stdout);
   if(ec->complete(ino, new_size) != extent_protocol::OK)
   {
     throw HdfsException("complete failed");
@@ -50,6 +54,8 @@ bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size) {
 }
 
 NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
+  printf("enter name node appendblock\n");
+  fflush(stdout);
   blockid_t bid;
   extent_protocol::attr a;
   if(ec->getattr(ino, a) != extent_protocol::OK)
@@ -62,11 +68,13 @@ NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino) {
     throw HdfsException("append block failed");
     return LocatedBlock(0, 0, 0, master_datanode);
   }
-  int offset = ((a/BLOCKSIZE) + (a % BLOCKSIZE != 0)) * BLOCK_SIZE;
+  int offset = ((a.size/BLOCK_SIZE) + (a.size % BLOCK_SIZE != 0)) * BLOCK_SIZE;
   return LocatedBlock(bid, offset, BLOCK_SIZE, master_datanode);
 }
 
 bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client::inum dst_dir_ino, string dst_name) {
+  printf("enter name node rename\n");
+  fflush(stdout);
   lc->acquire(src_dir_ino);
   bool found = false;
   yfs_client::inum inodeNum;
@@ -105,6 +113,8 @@ bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client:
 }
 
 bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
+  printf("enter name node mkdir\n");
+  fflush(stdout);
   if(yfs->mkdir(parent, name.c_str(), mode, ino_out) != yfs_client::OK)
   {
     throw HdfsException("mkdir failed");
@@ -114,6 +124,8 @@ bool NameNode::Mkdir(yfs_client::inum parent, string name, mode_t mode, yfs_clie
 }
 
 bool NameNode::Create(yfs_client::inum parent, string name, mode_t mode, yfs_client::inum &ino_out) {
+  printf("enter name node create\n");
+  fflush(stdout);
   if(yfs->create(parent, name.c_str(), mode, ino_out) != yfs_client::OK)
   {
     throw HdfsException("create a file failed");
@@ -124,14 +136,20 @@ bool NameNode::Create(yfs_client::inum parent, string name, mode_t mode, yfs_cli
 }
 
 bool NameNode::Isfile(yfs_client::inum ino) {
+  printf("enter name node isfile\n");
+  fflush(stdout);
   return yfs->Isfile(ino);
 }
 
 bool NameNode::Isdir(yfs_client::inum ino) {
+  printf("enter name node isdir\n");
+  fflush(stdout);
   return yfs->Isdir(ino);
 }
 
 bool NameNode::Getfile(yfs_client::inum ino, yfs_client::fileinfo &info) {
+  printf("enter name node get file\n");
+  fflush(stdout);
   if(yfs->Getfile(ino, info) != yfs_client::OK)
   {
     throw HdfsException("get file info failed");
@@ -141,6 +159,8 @@ bool NameNode::Getfile(yfs_client::inum ino, yfs_client::fileinfo &info) {
 }
 
 bool NameNode::Getdir(yfs_client::inum ino, yfs_client::dirinfo &info) {
+  printf("enter name node get dir\n");
+  fflush(stdout);
   if(yfs->Getdir(ino, info) != yfs_client::OK)
   {
     throw HdfsException("get dir info failed");
@@ -150,6 +170,8 @@ bool NameNode::Getdir(yfs_client::inum ino, yfs_client::dirinfo &info) {
 }
 
 bool NameNode::Readdir(yfs_client::inum ino, std::list<yfs_client::dirent> &dir) {
+  printf("enter name node read dir\n");
+  fflush(stdout);
   if(yfs->Readdir(ino, dir) != yfs_client::OK)
   {
     throw HdfsException("read dir failed");
@@ -159,6 +181,8 @@ bool NameNode::Readdir(yfs_client::inum ino, std::list<yfs_client::dirent> &dir)
 }
 
 bool NameNode::Unlink(yfs_client::inum parent, string name, yfs_client::inum ino) {
+  printf("enter name node unlink\n");
+  fflush(stdout);
   if(yfs->Unlink(parent, name.c_str()) != yfs_client::OK)
   {
     throw HdfsException("unlink failed");

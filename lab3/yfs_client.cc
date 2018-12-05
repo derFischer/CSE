@@ -38,6 +38,8 @@ yfs_client::filename(inum inum)
 bool
 yfs_client::isfile(inum inum)
 {
+    printf("enter yfs is file\n");
+    fflush(stdout);
     lc->acquire(inum);
     bool result = Isfile(inum);
     lc->release(inum);
@@ -69,6 +71,8 @@ yfs_client::Isfile(inum inum)
 bool
 yfs_client::isdir(inum inum)
 {
+    printf("enter yfs is dir\n");
+    fflush(stdout);
     // Oops! is this still correct when you implement symlink?
     lc->acquire(inum);
     bool result = Isdir(inum);
@@ -96,6 +100,8 @@ yfs_client::Isdir(inum inum)
 bool
 yfs_client::issymlink(inum inum)
 {
+    printf("enter yfs is symlink\n");
+    fflush(stdout);
     // Oops! is this still correct when you implement symlink?
     lc->acquire(inum);
     bool result = Issymlink(inum);
@@ -122,6 +128,8 @@ yfs_client::Issymlink(inum inum)
 int
 yfs_client::getfile(inum inum, fileinfo &fin)
 {
+    printf("enter yfs get file\n");
+    fflush(stdout);
     lc->acquire(inum);
     int r = Getfile(inum, fin);
     lc->release(inum);
@@ -154,6 +162,8 @@ release:
 int
 yfs_client::getdir(inum inum, dirinfo &din)
 {
+    printf("enter yfs get dir\n");
+    fflush(stdout);
     lc->acquire(inum);
     int r = Getdir(inum, din);
     lc->release(inum);
@@ -183,6 +193,8 @@ release:
 int
 yfs_client::getsymlink(inum inum, symlinkinfo &symlink)
 {
+    printf("enter yfs get symlink\n");
+    fflush(stdout);
     lc->acquire(inum);
     int r = Getsymlink(inum, symlink);
     lc->release(inum);
@@ -223,6 +235,8 @@ release:
 int
 yfs_client::setattr(inum ino, size_t size)
 {
+    printf("enter yfs set attr\n");
+    fflush(stdout);
     lc->acquire(ino);
     int r = Setattr(ino, size);
     lc->release(ino);
@@ -303,6 +317,8 @@ yfs_client::updateDirListAdd(inum parent, dirent item)
 int
 yfs_client::create(inum parent, const char *name, mode_t mode, inum &ino_out)
 {
+    printf("enter yfs create\n");
+    fflush(stdout);
     printf("want to create a file under %d\n", parent);
     lc->acquire(parent);
     int r = Create(parent, name, mode, ino_out);
@@ -352,6 +368,8 @@ yfs_client::Create(inum parent, const char *name, mode_t mode, inum &ino_out)
 int
 yfs_client::mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 {
+    printf("enter yfs mkdir\n");
+    fflush(stdout);
     lc->acquire(parent);
     int r = Mkdir(parent, name, mode, ino_out);
     lc->release(parent);
@@ -398,6 +416,8 @@ yfs_client::Mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 int
 yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
 {
+    printf("enter yfs lookup\n");
+    fflush(stdout);
     lc->acquire(parent);
     int r = Lookup(parent, name, found, ino_out);
     lc->release(parent);
@@ -439,6 +459,8 @@ yfs_client::Lookup(inum parent, const char *name, bool &found, inum &ino_out)
 int
 yfs_client::readdir(inum dir, std::list<dirent> &list)
 {
+    printf("enter yfs readdir\n");
+    fflush(stdout);
     lc->acquire(dir);
     int r = Readdir(dir, list);
     lc->release(dir);
@@ -478,6 +500,8 @@ yfs_client::Readdir(inum dir, std::list<dirent> &list)
 int
 yfs_client::read(inum ino, size_t size, off_t off, std::string &data)
 {
+    printf("enter yfs read\n");
+    fflush(stdout);
     lc->acquire(ino);
     int r = Read(ino, size, off, data);
     lc->release(ino);
@@ -507,6 +531,8 @@ int
 yfs_client::write(inum ino, size_t size, off_t off, const char *data,
         size_t &bytes_written)
 {
+    printf("enter yfs write\n");
+    fflush(stdout);
     lc->acquire(ino);
     int r = Write(ino, size, off, data, bytes_written);
     lc->release(ino);
@@ -581,6 +607,8 @@ yfs_client::updateDirListRemove(inum parent, dirent item)
 
 int yfs_client::unlink(inum parent,const char *name)
 {
+    printf("enter yfs unlink\n");
+    fflush(stdout);
     lc->acquire(parent);
     int r = Unlink(parent, name);
     lc->release(parent);
@@ -626,6 +654,8 @@ int yfs_client::Unlink(inum parent,const char *name)
 int
 yfs_client::symlink(inum parent, const char *name, inum &ino_out, const char *dest)
 {
+    printf("enter yfs symlink\n");
+    fflush(stdout);
     lc->acquire(parent);
     int r = Symlink(parent, name, ino_out, dest);
     lc->release(parent);
@@ -677,6 +707,8 @@ yfs_client::Symlink(inum parent, const char *name, inum &ino_out, const char *de
 int
 yfs_client::readlink(inum ino, std::string &dest)
 {
+    printf("enter yfs read link\n");
+    fflush(stdout);
     lc->acquire(ino);
     int r = Readlink(ino, dest);
     lc->release(ino);

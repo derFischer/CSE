@@ -41,6 +41,8 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
 }
 
 bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &buf) {
+  printf("enter data node read block\n");
+  fflush(stdout);
   /* Your lab4 part 2 code */
   if(ec->read_block(bid, buf) != extent_protocol::OK)
   {
@@ -56,6 +58,8 @@ bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &b
 }
 
 bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf) {
+  printf("enter data node write block\n");
+  fflush(stdout);
   /* Your lab4 part 2 code */
   string raw;
   if(ec->read_block(bid, raw) != extent_protocol::OK)
