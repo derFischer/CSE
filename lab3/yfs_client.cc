@@ -418,9 +418,15 @@ yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
 {
     printf("enter yfs lookup\n");
     fflush(stdout);
+    printf("yfs lookup prepare lock %d\n", parent);
+    fflush(stdout);
     lc->acquire(parent);
+    printf("yfs lookup acquire lock\n");
+    fflush(stdout);
     int r = Lookup(parent, name, found, ino_out);
     lc->release(parent);
+    printf("yfs lookup finish");
+    fflush(stdout);
     return r;
 }
 

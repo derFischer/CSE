@@ -638,5 +638,6 @@ inode_manager::complete(uint32_t inum, uint32_t size)
   t->ctime = (unsigned int)time(NULL);
   t->mtime = (unsigned int)time(NULL);
   t->size = size;
+  put_inode(inum, t);
   return;
 }

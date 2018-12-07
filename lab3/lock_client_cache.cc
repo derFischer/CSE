@@ -16,6 +16,7 @@ lock_client_cache::lock_client_cache(std::string xdst,
                                      class lock_release_user *_lu)
     : lock_client(xdst), lu(_lu)
 {
+  pthread_mutex_init(&cm, NULL);
   srand(time(NULL)^last_port);
   rlock_port = ((rand()%32000) | (0x1 << 10));
   char hname[100];
@@ -47,7 +48,8 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
     tmp.freeCv = PTHREAD_COND_INITIALIZER;
     locks[lid] = tmp;
   }
-  //printf("client: client %s try to acquire a lock\n", id.c_str(), lid, thisReqId);
+  //printf("client: client %s try to acquire a lock %d\n", id.c_str(), lid);
+  //fflush(stdout);
   while (true)
   {
     switch (locks[lid].state)
