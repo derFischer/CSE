@@ -72,7 +72,7 @@ bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const st
   content.resize(len);
   raw.replace(offset, len, content, 0, len);
   raw.resize(BLOCK_SIZE);
-  if(ec->write_block(bid, raw.c_str()) != extent_protocol::OK)
+  if(ec->write_block(bid, raw) != extent_protocol::OK)
   {
     printf("write block failed\n");
     fflush(stdout);

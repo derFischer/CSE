@@ -113,7 +113,7 @@ check_dfs() {
   check_cat
   check_mkdir
   check_rm
-  #quiet $HADOOP/bin/hdfs dfs -rm -f -r /test_touch /test_put /test_mkdir
+  quiet $HADOOP/bin/hdfs dfs -rm -f -r /test_touch /test_put /test_mkdir
 }
 
 test_yfs_to_hdfs() {
