@@ -148,6 +148,8 @@ void *worker(void *_arg) {
 }
 
 bool NameNode::RecursiveLookup(const string &path, yfs_client::inum &ino, yfs_client::inum &last) {
+  printf("enter RecursiveLookup\n");
+  fflush(stdout);
   size_t pos = 1, lastpos = 1;
   bool found;
   if (path[0] != '/') {
@@ -433,6 +435,8 @@ void NameNode::PBGetServerDefaults(const GetServerDefaultsRequestProto &req, Get
 }
 
 void NameNode::PBCreate(const CreateRequestProto &req, CreateResponseProto &resp) {
+  printf("enter PBcreate\n");
+  fflush(stdout);
   size_t pos = 1, lastpos = 1;
   bool found;
   string path = req.src();
@@ -460,6 +464,7 @@ void NameNode::PBCreate(const CreateRequestProto &req, CreateResponseProto &resp
     string component = path.substr(lastpos);
     if (!Create(ino, component.c_str(), 0666, ino))
       throw HdfsException("Create file failed");
+    pendingWrite.insert(make_pair(ino, 0));
     if (!PBGetFileInfoFromInum(ino, *resp.mutable_fs()))
       resp.clear_fs();
   } else
@@ -467,20 +472,34 @@ void NameNode::PBCreate(const CreateRequestProto &req, CreateResponseProto &resp
 }
 
 void NameNode::PBComplete(const CompleteRequestProto &req, CompleteResponseProto &resp) {
+  printf("enter PBCOMPLETE\n");
+  fflush(stdout);
   yfs_client::inum ino;
   if (!RecursiveLookup(req.src(), ino)) {
+    printf("PBCOMPLETE failed\n");
+    fflush(stdout);
     resp.set_result(false);
     return;
   }
   if (pendingWrite.count(ino) == 0)
+  {
+    printf("PBCOMPLETE ERROR HERE\n");
+    fflush(stdout);
     throw HdfsException("No such pending write");
+  }
+  printf("PBCOMPLETE reach here\n");
+  fflush(stdout);
   if (req.has_last()) {
     pendingWrite[ino] -= BLOCK_SIZE;
     pendingWrite[ino] += req.last().numbytes();
   }
   uint32_t new_size = pendingWrite[ino];
   pendingWrite.erase(ino);
+  printf("PBCOMPLETE prepare to complete\n");
+  fflush(stdout);
   bool r = Complete(ino, new_size);
+  printf("PBCOMPLETE finish\n");
+  fflush(stdout);
   if (!r) {
     pendingWrite.insert(make_pair(ino, new_size));
     throw HdfsException("Complete pending write failed");
@@ -489,6 +508,8 @@ void NameNode::PBComplete(const CompleteRequestProto &req, CompleteResponseProto
 }
 
 void NameNode::PBAddBlock(const AddBlockRequestProto &req, AddBlockResponseProto &resp) {
+  printf("enter PBAddBLock\n");
+  fflush(stdout);
   yfs_client::inum ino;
   if (!RecursiveLookup(req.src(), ino))
     return;
@@ -504,6 +525,8 @@ void NameNode::PBRenewLease(const RenewLeaseRequestProto &req, RenewLeaseRespons
 }
 
 void NameNode::PBRename(const RenameRequestProto &req, RenameResponseProto &resp) {
+  printf("enter PBRename\n");
+  fflush(stdout);
   yfs_client::inum src_dir_ino, dst_dir_ino;
   string src_name, dst_name;
   if (!RecursiveLookupParent(req.src(), src_dir_ino)) {
@@ -520,6 +543,8 @@ void NameNode::PBRename(const RenameRequestProto &req, RenameResponseProto &resp
 }
 
 void NameNode::DualLock(lock_protocol::lockid_t a, lock_protocol::lockid_t b) {
+  printf("enter DualLock\n");
+  fflush(stdout);
   if (a < b) {
     lc->acquire(a);
     lc->acquire(b);
@@ -531,6 +556,8 @@ void NameNode::DualLock(lock_protocol::lockid_t a, lock_protocol::lockid_t b) {
 }
 
 void NameNode::DualUnlock(lock_protocol::lockid_t a, lock_protocol::lockid_t b) {
+  printf("enter DualUnlock\n");
+  fflush(stdout);
   if (a == b)
     lc->release(a);
   else {
@@ -540,6 +567,8 @@ void NameNode::DualUnlock(lock_protocol::lockid_t a, lock_protocol::lockid_t b) 
 }
 
 bool NameNode::RecursiveDelete(yfs_client::inum ino) {
+  printf("enter RecursiveDelete\n");
+  fflush(stdout);
   list<yfs_client::dirent> dir;
   if (!Isdir(ino))
     return true;
@@ -565,6 +594,8 @@ bool NameNode::RecursiveDelete(yfs_client::inum ino) {
 }
 
 void NameNode::PBDelete(const DeleteRequestProto &req, DeleteResponseProto &resp) {
+  printf("enter PBDelete\n");
+  fflush(stdout);
   yfs_client::inum ino, parent;
   if (!RecursiveLookup(req.src(), ino, parent)) {
     resp.set_result(false);
@@ -601,6 +632,8 @@ void NameNode::PBDelete(const DeleteRequestProto &req, DeleteResponseProto &resp
 }
 
 void NameNode::PBMkdirs(const MkdirsRequestProto &req, MkdirsResponseProto &resp) {
+  printf("enter PBMkdirs\n");
+  fflush(stdout);
   size_t pos = 1, lastpos = 1;
   bool found;
   string path = req.src();
@@ -635,6 +668,8 @@ void NameNode::PBMkdirs(const MkdirsRequestProto &req, MkdirsResponseProto &resp
 }
 
 void NameNode::PBGetFsStats(const GetFsStatsRequestProto &req, GetFsStatsResponseProto &resp) {
+  printf("enter PBGetFsStats\n");
+  fflush(stdout);
   resp.set_capacity(0);
   resp.set_used(0);
   resp.set_remaining(0);
@@ -644,10 +679,14 @@ void NameNode::PBGetFsStats(const GetFsStatsRequestProto &req, GetFsStatsRespons
 }
 
 void NameNode::PBSetSafeMode(const SetSafeModeRequestProto &req, SetSafeModeResponseProto &resp) {
+  printf("enter PBSetSafeMode\n");
+  fflush(stdout);
   resp.set_result(false);
 }
 
 void NameNode::PBGetDatanodeReport(const GetDatanodeReportRequestProto &req, GetDatanodeReportResponseProto &resp) {
+  printf("enter PBGetDatanodeReport\n");
+  fflush(stdout);
   switch (req.type()) {
   case ALL:
   case LIVE: {
