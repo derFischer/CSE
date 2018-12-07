@@ -108,6 +108,8 @@ int extent_server::read_block(blockid_t id, std::string &buf)
 
 int extent_server::write_block(blockid_t id, std::string buf, int &)
 {
+  printf("extent_server receive a write request of inode %d\n", id);
+  fflush(stdout);
   if (buf.size() != BLOCK_SIZE)
     return extent_protocol::IOERR;
 

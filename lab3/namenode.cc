@@ -23,7 +23,7 @@ list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino)
   list<blockid_t> block_ids;
   if (ec->get_block_ids(ino, block_ids) != extent_protocol::OK)
   {
-    printf("name node locatedblock finish\n");
+    printf("name node locatedblock finish failed\n");
     fflush(stdout);
     throw HdfsException("get block ids failed");
     return list<NameNode::LocatedBlock>();

@@ -163,6 +163,7 @@ bool DataNode::SendHeartbeat() {
 static bool ReadOp(CodedInputStream &is, int &op) {
   uint8_t buf[3];
   if (!is.ReadRaw(buf, sizeof(buf))) {
+    fprintf(stderr, "buf: %d %d %d %d\n", buf[0], buf[1], buf[2], buf[3]);fflush(stderr);
     fprintf(stderr, "%s:%d read op failed\n", __func__, __LINE__); fflush(stderr);
     return false;
   }
@@ -201,6 +202,8 @@ bool WritePacket(CodedOutputStream &cos, FileOutputStream &fos, uint64_t offset_
 }
 
 bool DataNode::_ReadBlock(CodedInputStream &is, CodedOutputStream &os, FileOutputStream &raw_os) {
+  printf("enter data node read block\n");
+  fflush(stdout);
   // Read request
   auto limit = is.ReadLengthAndPushLimit();
   OpReadBlockProto param;
