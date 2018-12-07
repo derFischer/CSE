@@ -84,6 +84,8 @@ extent_client::read_block(blockid_t bid, std::string &buf)
 extent_protocol::status
 extent_client::write_block(blockid_t bid, const std::string &buf)
 {
+  printf("extent client receive a write request %d\n", bid);
+  fflush(stdout);
   extent_protocol::status ret = extent_protocol::OK;
   int r;
   ret = cl->call(extent_protocol::write_block, bid, buf, r);

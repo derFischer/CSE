@@ -36,6 +36,11 @@ extent_server: get 1
 im read file
 	im: get_inode 1
 want to read a file inode 1, size 12
+<<<<<<< HEAD
+=======
+enter im complete
+	im: get_inode 2
+>>>>>>> 9cb1624fe973e6e57c07d0b2b207dabe8c0a17de
 extent_server: getattr 1
 enter im getattr
 extent_server: getattr 1
@@ -93,10 +98,51 @@ extent_server: get 1
 im read file
 	im: get_inode 1
 want to read a file inode 1, size 32
+<<<<<<< HEAD
+=======
+extent_server: getattr 3
+enter im getattr
+enter im append block
+	im: get_inode 3
+	im: put_inode 3
+enter im read block
+extent_server receive a write request of inode 1028
+enter im write block
+enter im read block
+extent_server receive a write request of inode 1028
+enter im write block
 extent_server: get 1
 im read file
 	im: get_inode 1
 want to read a file inode 1, size 32
+enter im complete
+	im: get_inode 3
+extent_server: get 1
+im read file
+	im: get_inode 1
+want to read a file inode 1, size 32
+>>>>>>> 9cb1624fe973e6e57c07d0b2b207dabe8c0a17de
+extent_server: get 1
+im read file
+	im: get_inode 1
+want to read a file inode 1, size 32
+<<<<<<< HEAD
+=======
+enter im write file
+	im: get_inode 1
+	im: put_inode 1
+extent_server: get 1
+im read file
+	im: get_inode 1
+want to read a file inode 1, size 12
+enter im write file
+	im: get_inode 1
+	im: put_inode 1
+extent_server: get 1
+im read file
+	im: get_inode 1
+want to read a file inode 1, size 22
+>>>>>>> 9cb1624fe973e6e57c07d0b2b207dabe8c0a17de
 extent_server: getattr 3
 enter im getattr
 extent_server: getattr 3
@@ -104,4 +150,14 @@ enter im getattr
 extent_server: get 1
 im read file
 	im: get_inode 1
+<<<<<<< HEAD
 want to read a file inode 1, size 32
+=======
+want to read a file inode 1, size 22
+extent_server: getattr 3
+enter im getattr
+extent_server: getattr 3
+enter im getattr
+enter im get block ids
+	im: get_inode 3
+>>>>>>> 9cb1624fe973e6e57c07d0b2b207dabe8c0a17de

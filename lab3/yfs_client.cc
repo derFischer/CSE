@@ -416,7 +416,7 @@ yfs_client::Mkdir(inum parent, const char *name, mode_t mode, inum &ino_out)
 int
 yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out)
 {
-    printf("enter yfs lookup\n");
+    printf("enter yfs lookup, parent inum %d\n", parent);
     fflush(stdout);
     printf("yfs lookup prepare lock %d\n", parent);
     fflush(stdout);

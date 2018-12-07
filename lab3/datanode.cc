@@ -65,6 +65,7 @@ bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const st
   if(ec->read_block(bid, raw) != extent_protocol::OK)
   {
     printf("read block failed\n");
+    fflush(stdout);
     return false;
   }
   string content = buf;
@@ -74,6 +75,7 @@ bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const st
   if(ec->write_block(bid, raw.c_str()) != extent_protocol::OK)
   {
     printf("write block failed\n");
+    fflush(stdout);
     return false;
   }
   return true;

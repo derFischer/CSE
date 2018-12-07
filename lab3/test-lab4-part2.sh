@@ -266,7 +266,7 @@ fi
 trap "stop_yfs; exit 1" INT
 
 stop_hdfs
-stop_yfs
+stop_yf
 send_yfs
 start_yfs
 check_dfs

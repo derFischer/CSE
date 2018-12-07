@@ -34,6 +34,8 @@ lock_client_cache::lock_client_cache(std::string xdst,
 lock_protocol::status
 lock_client_cache::acquire(lock_protocol::lockid_t lid)
 {
+  printf("a client want to acquire lock of %d\n", lid);
+  fflush(stdout);
   int ret = lock_protocol::OK;
   pthread_mutex_lock(&cm);
   if (locks.find(lid) == locks.end())
@@ -162,13 +164,14 @@ lock_client_cache::acquire(lock_protocol::lockid_t lid)
 lock_protocol::status
 lock_client_cache::release(lock_protocol::lockid_t lid)
 {
-  //printf("client: client %s try to re;e a lock\n", id.c_str(), lid, thisReqId);
+  printf("a client wants to release a lock of %d\n", lid);
   int ret = lock_protocol::OK;
   pthread_mutex_lock(&cm);
   locks[lid].state = FREE;
   pthread_cond_signal(&locks[lid].freeCv);
   pthread_cond_broadcast(&locks[lid].waitCv);
   pthread_mutex_unlock(&cm);
+  printf("a client release %d success\n", lid);
   return ret;
 }
 
