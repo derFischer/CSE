@@ -7,7 +7,8 @@
 
 using namespace std;
 
-int DataNode::init(const string &extent_dst, const string &namenode, const struct sockaddr_in *bindaddr) {
+int DataNode::init(const string &extent_dst, const string &namenode, const struct sockaddr_in *bindaddr)
+{
   ec = new extent_client(extent_dst);
 
   // Generate ID based on listen address
@@ -20,14 +21,16 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
 
   // Save namenode address and connect
   make_sockaddr(namenode.c_str(), &namenode_addr);
-  if (!ConnectToNN()) {
+  if (!ConnectToNN())
+  {
     delete ec;
     ec = NULL;
     return -1;
   }
 
   // Register on namenode
-  if (!RegisterOnNamenode()) {
+  if (!RegisterOnNamenode())
+  {
     delete ec;
     ec = NULL;
     close(namenode_conn);
@@ -36,20 +39,33 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
   }
 
   /* Add your initialization here */
-
+  NewThread(this, &DataNode::sendHeartbeat);
   return 0;
 }
 
-bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &buf) {
+void DataNode::sendHeartbeat()
+{
+  while (1)
+  {
+    bool r = SendHeartbeat();
+    string mes = r ? "success" : "failed";
+    printf("datanode\tsend heartbeat\t%s\n", mes.c_str());
+    fflush(stdout);
+    sleep(1); //send once per second
+  }
+}
+
+bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &buf)
+{
   printf("enter data node read block\n");
   fflush(stdout);
   /* Your lab4 part 2 code */
-  if(ec->read_block(bid, buf) != extent_protocol::OK)
+  if (ec->read_block(bid, buf) != extent_protocol::OK)
   {
     printf("read block failed\n");
     return false;
   }
-  if(offset + len > BLOCK_SIZE)
+  if (offset + len > BLOCK_SIZE)
   {
     buf.resize(offset + len, '\0');
   }
@@ -57,12 +73,13 @@ bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &b
   return true;
 }
 
-bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf) {
+bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf)
+{
   printf("enter data node write block\n");
   fflush(stdout);
   /* Your lab4 part 2 code */
   string raw;
-  if(ec->read_block(bid, raw) != extent_protocol::OK)
+  if (ec->read_block(bid, raw) != extent_protocol::OK)
   {
     printf("read block failed\n");
     fflush(stdout);
@@ -72,7 +89,7 @@ bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const st
   content.resize(len);
   raw.replace(offset, len, content, 0, len);
   raw.resize(BLOCK_SIZE);
-  if(ec->write_block(bid, raw) != extent_protocol::OK)
+  if (ec->write_block(bid, raw) != extent_protocol::OK)
   {
     printf("write block failed\n");
     fflush(stdout);
@@ -80,4 +97,3 @@ bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const st
   }
   return true;
 }
-

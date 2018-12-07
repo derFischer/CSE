@@ -4,11 +4,13 @@
 #include <namenode.pb.h>
 #include <string>
 #include <list>
+#include <vector>
 #include "yfs_client.h"
 #include <stdexcept>
 #include <set>
 #include <unordered_map>
 
+using namespace std;
 class extent_client;
 class lock_client;
 class yfs_client;
@@ -23,6 +25,12 @@ bool operator<(const DatanodeIDProto &, const DatanodeIDProto &);
 bool operator==(const DatanodeIDProto &, const DatanodeIDProto &);
 
 class NameNode {
+  enum datanodeState {ALIVE, DEATH, RECOVERY};
+  struct datanodeStatus
+  {
+    datanodeState state;
+    time_t touchTime;
+  };
   struct LocatedBlock {
     blockid_t block_id;
     uint64_t offset, size;
@@ -51,9 +59,15 @@ private:
   yfs_client *yfs;
   DatanodeIDProto master_datanode;
   std::map<yfs_client::inum, uint32_t> pendingWrite;
-
+  list<blockid_t> repBlocks;
+  list<yfs_client::inum> repFiles;
   /* Add your member variables/functions here */
+  std::map<DatanodeIDProto, datanodeStatus> datanodes;
+  pthread_mutex_t datanodesMap;
+  pthread_mutex_t repBlocksLock;
+
 private:
+  void refreshRepBlocks(yfs_client::inum);
   void GetFileInfo();
   bool RecursiveLookup(const std::string &path, yfs_client::inum &ino, yfs_client::inum &last);
   bool RecursiveLookup(const std::string &path, yfs_client::inum &ino);
@@ -80,6 +94,8 @@ private:
   void DatanodeHeartbeat(DatanodeIDProto id);
   std::list<DatanodeIDProto> GetDatanodes();
   static bool ReplicateBlock(blockid_t bid, DatanodeIDProto from, DatanodeIDProto to);
+  void ReplicateData(DatanodeIDProto);
+  void Monitor(DatanodeIDProto);
 public:
   void init(const std::string &extent_dst, const std::string &lock_dst);
   bool PBGetFileInfoFromInum(yfs_client::inum ino, HdfsFileStatusProto &info);
