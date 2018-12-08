@@ -108,7 +108,7 @@ NameNode::LocatedBlock NameNode::AppendBlock(yfs_client::inum ino)
   int offset = ((a.size / BLOCK_SIZE) + (a.size % BLOCK_SIZE != 0)) * BLOCK_SIZE;
   printf("name node appendblock finish\n");
   fflush(stdout);
-  return LocatedBlock(bid, offset, BLOCK_SIZE, master_datanode);
+  return LocatedBlock(bid, offset, BLOCK_SIZE, GetDatanodes());
 }
 
 bool NameNode::Rename(yfs_client::inum src_dir_ino, string src_name, yfs_client::inum dst_dir_ino, string dst_name)
@@ -268,6 +268,8 @@ bool NameNode::Unlink(yfs_client::inum parent, string name, yfs_client::inum ino
 
 void NameNode::DatanodeHeartbeat(DatanodeIDProto id)
 {
+  printf("enter name node data node heart beat\n");
+  fflush(stdout);
   pthread_mutex_lock(&datanodesMap);
   switch (datanodes[id].state)
   {
@@ -286,6 +288,8 @@ void NameNode::DatanodeHeartbeat(DatanodeIDProto id)
 
 void NameNode::RegisterDatanode(DatanodeIDProto id)
 {
+  printf("enter name node register data node\n");
+  fflush(stdout);
   pthread_mutex_lock(&datanodesMap);
   if (datanodes.find(id) != datanodes.end())
   {
@@ -296,7 +300,7 @@ void NameNode::RegisterDatanode(DatanodeIDProto id)
   datanodeStatus status;
   status.state = RECOVERY;
   status.touchTime = time(NULL);
-  datanodes[id].state = RECOVERY;
+  datanodes[id] = status;
   pthread_mutex_unlock(&datanodesMap);
   NewThread(this, &NameNode::ReplicateData, id);
   NewThread(this, &NameNode::Monitor, id);
@@ -304,6 +308,8 @@ void NameNode::RegisterDatanode(DatanodeIDProto id)
 
 void NameNode::ReplicateData(DatanodeIDProto id)
 {
+  printf("enter name node replicate data\n");
+  fflush(stdout);
   while (1)
   {
     pthread_mutex_lock(&datanodesMap);
@@ -327,6 +333,8 @@ void NameNode::ReplicateData(DatanodeIDProto id)
 
 void NameNode::Monitor(DatanodeIDProto id)
 {
+  printf("enter name node monitor\n");
+  fflush(stdout);
   while (1)
   {
     pthread_mutex_lock(&datanodesMap);
@@ -344,18 +352,24 @@ void NameNode::Monitor(DatanodeIDProto id)
 
 list<DatanodeIDProto> NameNode::GetDatanodes()
 {
+  printf("enter name node get data nodes\n");
+  fflush(stdout);
   list<DatanodeIDProto> results;
   map<DatanodeIDProto, datanodeStatus>::iterator tmp;
   pthread_mutex_lock(&datanodesMap);
+  int num = 0;
   tmp = datanodes.begin();
   while (tmp != datanodes.end())
   {
     if (tmp->second.state == ALIVE)
     {
       results.push_back(tmp->first);
+      num++;
     }
     tmp++;
   }
-  pthread_mutex_lock(&datanodesMap);
+  printf("name node get data nodes finish num %d\n", num);
+  fflush(stdout);
+  pthread_mutex_unlock(&datanodesMap);
   return results;
 }
