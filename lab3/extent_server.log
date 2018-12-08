@@ -28,6 +28,8 @@ want to read a file inode 1, size 0
 enter im write file
 	im: get_inode 1
 	im: put_inode 1
+enter im get block ids
+	im: get_inode 1
 extent_server: getattr 2
 enter im getattr
 extent_server: getattr 2
@@ -39,6 +41,8 @@ want to read a file inode 1, size 12
 enter im complete
 	im: get_inode 2
 	im: put_inode 2
+enter im get block ids
+	im: get_inode 2
 extent_server: getattr 1
 enter im getattr
 extent_server: getattr 1
@@ -80,6 +84,8 @@ want to read a file inode 1, size 12
 enter im write file
 	im: get_inode 1
 	im: put_inode 1
+enter im get block ids
+	im: get_inode 1
 extent_server: getattr 3
 enter im getattr
 extent_server: getattr 3
@@ -114,6 +120,8 @@ want to read a file inode 1, size 32
 enter im complete
 	im: get_inode 3
 	im: put_inode 3
+enter im get block ids
+	im: get_inode 3
 extent_server: get 1
 im read file
 	im: get_inode 1
@@ -639,6 +647,8 @@ want to read a file inode 1, size 9
 enter im write file
 	im: get_inode 1
 	im: put_inode 1
+enter im get block ids
+	im: get_inode 1
 extent_server: getattr 2
 enter im getattr
 extent_server: getattr 2
@@ -673,6 +683,8 @@ want to read a file inode 1, size 26
 enter im complete
 	im: get_inode 2
 	im: put_inode 2
+enter im get block ids
+	im: get_inode 2
 extent_server: get 1
 im read file
 	im: get_inode 1
@@ -718,6 +730,8 @@ want to read a file inode 1, size 16
 enter im write file
 	im: get_inode 1
 	im: put_inode 1
+enter im get block ids
+	im: get_inode 1
 extent_server: getattr 3
 enter im getattr
 extent_server: getattr 3
@@ -752,6 +766,8 @@ want to read a file inode 1, size 33
 enter im complete
 	im: get_inode 3
 	im: put_inode 3
+enter im get block ids
+	im: get_inode 3
 extent_server: get 1
 im read file
 	im: get_inode 1

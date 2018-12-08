@@ -57,7 +57,7 @@ void DataNode::sendHeartbeat()
 
 bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &buf)
 {
-  printf("enter data node read block\n");
+  printf("enter data node read block %d\n", bid);
   fflush(stdout);
   /* Your lab4 part 2 code */
   if (ec->read_block(bid, buf) != extent_protocol::OK)
@@ -70,12 +70,14 @@ bool DataNode::ReadBlock(blockid_t bid, uint64_t offset, uint64_t len, string &b
     buf.resize(offset + len, '\0');
   }
   buf = buf.substr(offset, len);
+  printf("read content %s\n", buf.c_str());
+  fflush(stdout);
   return true;
 }
 
 bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const string &buf)
 {
-  printf("enter data node write block\n");
+  printf("enter data node write block %d\n", bid);
   fflush(stdout);
   /* Your lab4 part 2 code */
   string raw;
@@ -89,6 +91,8 @@ bool DataNode::WriteBlock(blockid_t bid, uint64_t offset, uint64_t len, const st
   content.resize(len);
   raw.replace(offset, len, content, 0, len);
   raw.resize(BLOCK_SIZE);
+  printf("write content %s\n", raw.c_str());
+  fflush(stdout);
   if (ec->write_block(bid, raw) != extent_protocol::OK)
   {
     printf("write block failed\n");

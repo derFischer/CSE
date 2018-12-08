@@ -38,7 +38,9 @@ list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino)
   list<NameNode::LocatedBlock> result;
   for (int index = 0; index < size && fileSize > 0; ++index)
   {
-    result.push_back(LocatedBlock(block_ids.front(), offset, (fileSize % BLOCK_SIZE) ? fileSize % BLOCK_SIZE : BLOCK_SIZE, GetDatanodes()));
+    printf("name node located block file %d block id %d\n", ino, block_ids.front());
+    fflush(stdout);
+    result.push_back(LocatedBlock(block_ids.front(), offset, (fileSize >= BLOCK_SIZE) ? BLOCK_SIZE:fileSize, GetDatanodes()));
     block_ids.pop_front();
     offset += BLOCK_SIZE;
     fileSize -= BLOCK_SIZE;
@@ -49,6 +51,8 @@ list<NameNode::LocatedBlock> NameNode::GetBlockLocations(yfs_client::inum ino)
 }
 void NameNode::refreshRepBlocks(yfs_client::inum ino)
 {
+  printf("enter name node refresh blocks\n");
+  fflush(stdout);
   list<blockid_t> blocks;
   if (ec->get_block_ids(ino, blocks) != extent_protocol::OK)
   {
@@ -56,6 +60,7 @@ void NameNode::refreshRepBlocks(yfs_client::inum ino)
     fflush(stdout);
     return;
   }
+  blocks.pop_back();
   int size = blocks.size();
   pthread_mutex_lock(&repBlocksLock);
   for (int index = 0; index < size; ++index)
@@ -64,6 +69,7 @@ void NameNode::refreshRepBlocks(yfs_client::inum ino)
     blocks.pop_front();
   }
   pthread_mutex_unlock(&repBlocksLock);
+  printf("finish name node refresh blocks, blocks num %d\n", repBlocks.size());
   return;
 }
 bool NameNode::Complete(yfs_client::inum ino, uint32_t new_size)
@@ -308,27 +314,37 @@ void NameNode::RegisterDatanode(DatanodeIDProto id)
 
 void NameNode::ReplicateData(DatanodeIDProto id)
 {
-  printf("enter name node replicate data\n");
+  printf("enter name node replicate data blocks num %d\n", repBlocks.size());
   fflush(stdout);
-  while (1)
+  printf("name node replicate try to get lock\n");
+  fflush(stdout);
+  pthread_mutex_lock(&datanodesMap);
+  printf("name node replicate get the lock\n");
+  fflush(stdout);
+  if (datanodes[id].state == DEATH)
   {
-    pthread_mutex_lock(&datanodesMap);
-    if (repBlocks.empty())
-    {
-      datanodes[id].state = ALIVE;
-      pthread_mutex_unlock(&datanodesMap);
-      return;
-    }
-    list<blockid_t>::iterator tmp = repBlocks.begin();
-    while (tmp != repBlocks.end())
-    {
-      ReplicateBlock(*tmp, master_datanode, id);
-      tmp++;
-    }
+    pthread_mutex_unlock(&datanodesMap);
+    return;
+  }
+  if (repBlocks.empty())
+  {
     datanodes[id].state = ALIVE;
     pthread_mutex_unlock(&datanodesMap);
-    sleep(1);
+    return;
   }
+  list<blockid_t>::iterator tmp = repBlocks.begin();
+  while (tmp != repBlocks.end())
+  {
+    printf("replicate data block %d\n", *tmp);
+    ReplicateBlock(*tmp, master_datanode, id);
+    printf("replicate data block %d finish\n", *tmp);
+    fflush(stdout);
+    tmp++;
+  }
+  datanodes[id].state = ALIVE;
+  pthread_mutex_unlock(&datanodesMap);
+  printf("replicate data block awake\n");
+  fflush(stdout);
 }
 
 void NameNode::Monitor(DatanodeIDProto id)

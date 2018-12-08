@@ -555,11 +555,11 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
   bid = newBlock;
   struct inode* t = get_inode(inum);
   std::list<blockid_t> blocks = inodeBlocks(t, bm);
+  t->size += BLOCK_SIZE;
   int size = blocks.size();
   if(size < NDIRECT)
   {
     t->blocks[size] = bid;
-    put_inode(inum, t);
   }
   else if(size == NDIRECT)
   {
@@ -570,7 +570,6 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
     blockids[0] = bid;
     bm->write_block(indBlock, tmp);
     t->blocks[NDIRECT] = indBlock;
-    put_inode(inum, t);
   }
   else
   {
@@ -580,6 +579,7 @@ inode_manager::append_block(uint32_t inum, blockid_t &bid)
     blocks[size - NDIRECT] = bid;
     bm->write_block(blocks[NDIRECT], indirect);
   }
+  put_inode(inum, t);
   return;
 }
 
