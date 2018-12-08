@@ -45,13 +45,14 @@ int DataNode::init(const string &extent_dst, const string &namenode, const struc
 
 void DataNode::sendHeartbeat()
 {
-  while (1)
+  while (true)
   {
-    bool r = SendHeartbeat();
-    string mes = r ? "success" : "failed";
-    printf("datanode\tsend heartbeat\t%s\n", mes.c_str());
-    fflush(stdout);
-    sleep(1); //send once per second
+    if(!SendHeartbeat())
+    {
+      printf("send heart beat failed\n");
+      fflush(stdout);
+    }
+    sleep(1);
   }
 }
 
